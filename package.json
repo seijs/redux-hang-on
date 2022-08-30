@@ -12,5 +12,8 @@
   "peerDependencies": {
     "redux": "^4.2.0",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.4"
   }
 }
