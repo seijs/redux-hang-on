@@ -1,0 +1,16 @@
+{
+  "name": "@seijs/redux-hang-on",
+  "version": "0.0.12",
+  "description": "Library for nice and scalable organizing of business logic in redux applications",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Konstantin Astapov",
+  "license": "MIT",
+  "peerDependencies": {
+    "redux": "^4.2.0",
+    "uuid": "^8.3.2"
+  }
+}
