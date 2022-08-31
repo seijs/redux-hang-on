@@ -1,4 +1,4 @@
-import { makeProcMiddleware } from './createMiddleware';
+import { makeProcMiddleware } from  './createMiddleware';
 import { makeReducer } from './createReducer';
 import {
   MakeProcessorType,

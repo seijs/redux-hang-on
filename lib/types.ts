@@ -30,6 +30,9 @@ export type SetStatatusType<IR, Trigger extends keyof IR> = <
 export type DefautOpts<IR, IStore, Trigger extends keyof IR> = {
   setStatus: SetStatatusType<PickWithKeys<IR>, Trigger>;
   trigger: DispatcherType<IR>;
+  triggerOnly: DispatcherType<IR>;
+  save: DispatcherType<IR>;
+  uid: string;
   getCurrentState: () => IStore;
   stopPropagate: () => void;
   drop: () => void;

@@ -1,5 +1,4 @@
 import { System } from '../System';
-import { v4 } from 'uuid';
 
 type Modes = 'stable' | 'refreshing' | 'multiple';
 
@@ -25,32 +24,34 @@ export function createProcessorInstance(
 function multipleMode(system, config, opt, actionType) {
   const processor = config.saga;
   const newInstance = new processor(opt);
-  const processUid = v4();
+  const processUid = opt.uid;
   system.upProcess(newInstance, actionType, processUid);
 
-  return newInstance;
+  return newInstance; //.init(actionPayload);
 }
 
 function stableMode(system, config, opt, actionType) {
   const processor = config.saga;
+  const processUid = opt.uid;
   const found = system.findProcess(actionType);
   if (found.length) {
     return found[0];
   }
   const newInstance = new processor(opt);
-  system.upProcess(newInstance, actionType);
+  system.upProcess(newInstance, actionType, processUid);
 
-  return newInstance;
+  return newInstance; //.init(actionPayload);
 }
 
 function refreshingMode(system, config, opt, actionType) {
   const processor = config.saga;
   const found = system.findProcess(actionType);
+  const processUid = opt.uid;
   if (found) {
     system.downProcess(actionType);
   }
   const newInstance = new processor(opt);
-  system.upProcess(newInstance, actionType);
+  system.upProcess(newInstance, actionType, processUid);
 
-  return newInstance;
+  return newInstance; //.init(actionPayload);
 }

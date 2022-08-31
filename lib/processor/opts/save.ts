@@ -1,6 +1,6 @@
-import { getActionType } from '../../utils';
+import { getActionType }  from '../../utils';
 
-export function Trigger(store, config, system, uid) {
+export function Save(store, config, system, uid) {
   const canTrigger = config.config.canTrigger;
 
   return (actionType, actionStatus, actionArgs) => {
@@ -11,6 +11,9 @@ export function Trigger(store, config, system, uid) {
         store.dispatch({
           type: combynedType,
           payload: actionArgs,
+          opts: {
+            noInit: true,
+          },
         });
       } else {
         console.log(

@@ -19,8 +19,8 @@ export const makeProcMiddleware = (
     let forceStopPropagate = false;
     const actionType = action.type;
     const actionPayload = action.payload || null;
-    const initConfig = matchInitTrigger(configs, actionType); 
-    const updateConfigs = matchUpdateTrigger(configs, actionType);
+    const initConfig = matchInitTrigger(configs, actionType); /// Возвращает  1 конфиг
+    const updateConfigs = matchUpdateTrigger(configs, actionType); //Возвращает массив конфигов
     if (initConfig) {
       const opts = prepareOpts(initConfig, store, system);
       const instance = createProcessorInstance(

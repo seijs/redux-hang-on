@@ -20,6 +20,12 @@ export class System {
 
   private triggerWithoutUid = (name) => name.split(':')[0];
 
+  private triggerUid = (name) => {
+    const arr = name.split(':');
+
+    return arr.length > 1 ? arr[1] : null;
+  };
+
   public findProcess(trigger: string) {
     return Object.keys(this.context)
       .filter((k) => this.triggerWithoutUid(k) === trigger)
@@ -35,6 +41,12 @@ export class System {
     Object.keys(this.context)
       .filter((k) => this.triggerWithoutUid(k) === trigger)
       .forEach((c) => delete this.context[c]);
+  }
+
+  public findProcessByUid(uid: string) {
+    return Object.keys(this.context)
+      .filter((k) => this.triggerUid(k) === uid)
+      .map((c) => this.context[c]);
   }
 
   public registerProcessor(trigger: string, opts: ProcessorOpts) {
