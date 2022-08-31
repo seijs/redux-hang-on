@@ -12,12 +12,13 @@
       "dom",
     ],
     "baseUrl": "./",
+    "outDir": "./dist",
     "sourceMap": true,
     "module": "esnext",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "allowJs": true,
-    "jsx": "react",
+    "declaration": true,
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
     "resolveJsonModule": true,
@@ -25,8 +26,9 @@
     "experimentalDecorators": true
   },
   "include": [
-    "src/**/*.tsx",
-    "src/**/*.ts",
+    "lib/**/*.ts",
+    "*.ts",
+    "package.json"
   ],
   "exclude": [
     "node_modules",
