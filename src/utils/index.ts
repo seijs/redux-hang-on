@@ -1,4 +1,4 @@
-import { MakeReducerType } from 'src/types';
+import { MakeReducerType } from '../types';
 
 export const getNullReducersNames = <AC, StoreType>(
   reducers: MakeReducerType<AC, StoreType>

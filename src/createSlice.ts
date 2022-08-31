@@ -1,9 +1,9 @@
-import { makeProcMiddleware } from 'src/createMiddleware';
-import { makeReducer } from 'src/createReducer';
+import { makeProcMiddleware } from './createMiddleware';
+import { makeReducer } from './createReducer';
 import {
   MakeProcessorType,
   MakeReducerType,
-} from 'src/types';
+} from './types';
 
 export function createSlice<IStore, Store, ITrigger>(args: {
   reducer: MakeReducerType<ITrigger, IStore>;

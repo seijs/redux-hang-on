@@ -1,4 +1,4 @@
-import { getActionType } from 'src/utils';
+import { getActionType } from '../../utils';
 
 export function Drop(system, config) {
   const actionType = getActionType(config.trigger, config.config.triggerStatus);

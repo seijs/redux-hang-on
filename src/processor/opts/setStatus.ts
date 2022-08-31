@@ -1,4 +1,4 @@
-import { getActionType } from 'src/utils';
+import { getActionType } from '../../utils';
 
 export function SetStatus(store, config) {
   return (status, args) => {

@@ -1,4 +1,4 @@
-import { getTriggerAndStatus } from 'src/utils';
+import { getTriggerAndStatus } from '../../utils';
 
 
 function pickReducer(reducers, trigger, status) {
