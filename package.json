@@ -1,13 +1,12 @@
 {
   "name": "@seijs/redux-hang-on",
-  "version": "0.0.16",
+  "version": "0.0.19",
   "description": "Library for nice and scalable organizing of business logic in redux applications",
   "files": ["lib", "index.d.ts", "readme.md"],
   "keywords": ["react", "redux"],
   "repository": "github:seijs/redux-hang-on",
   "main": "lib/index.js",
   "scripts": {
-    "publish": "cd /dist npm publish --access public",
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
