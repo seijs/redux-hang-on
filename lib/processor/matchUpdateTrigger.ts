@@ -8,6 +8,9 @@ export function matchUpdateTrigger(configs, actionType) {
       const conf = configs[c];
       const updateOn = conf.updateOn;
       if (updateOn) {
+        if (updateOn.length === 0) {
+          return true;
+        }
         const matchedTrigger = updateOn.find((t) => {
           const firstKey = Object.keys(t)[0];
 
