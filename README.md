@@ -86,7 +86,7 @@ Something like this
 
 ```typescript
 import { IState } from  'src/_redux/types';
-import { MakeProcessorType } from  'src/_lib-redux-hang-on/types';
+import { MakeProcessorType } from  'src/@seijs/redux-hang-on/lib/types';
 import { IUserTriggers} from  '../__reducers';
 import { LoadUser } from  './LoadUser;
 
@@ -175,7 +175,7 @@ Inside the processor all the actions that could be triggered are specified in
 Now wrap it all into *slice*
 
 ```typescript
-import { createSlice } from '@seij/redux-hang-on/createSlice';
+import { createSlice } from '@seijs/redux-hang-on/createSlice';
 import { eventsProcessor } from './__processors';
 import { eventsInitialState, eventsReducer } from './__reducers';
 
@@ -232,5 +232,4 @@ Please make sure to update tests as appropriate.
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-> You can find more information about **LaTeX** mathematical expressions [here](http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
 
