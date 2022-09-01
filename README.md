@@ -21,8 +21,8 @@ First *reducer* part
 
 import { User } from  'src/_api/types/entities';
 import { MakeReducerType } from  '@seijs/redux-hang-on/lib/types';
-import { loadAppDone } from  './loadUserDone';
-import { loadAppWait } from  './loadUserWait';
+import { loadUserDone } from  './loadUserDone';
+import { loadUserWait } from  './loadUserWait';
 
   
 
@@ -88,7 +88,7 @@ Something like this
 import { IState } from  'src/_redux/types';
 import { MakeProcessorType } from  'src/_lib-redux-hang-on/types';
 import { IUserTriggers} from  '../__reducers';
-import { LoadUser } from  './LoadApp';
+import { LoadUser } from  './LoadUser;
 
 export  type  IUserProcessor = MakeProcessorType<IUserTriggers, IState>;
 
@@ -97,7 +97,7 @@ export  const  userProcessor: IUserProcessor = {
 		saga:  LoadUser,
 		instance:  'stable',
 		triggerStatus:  'wait',
-		updateOn: [{ loadApp:  'done' }],
+		updateOn: [{ loadUser:  'done' }],
 		canTrigger: ['loadUser'],
 	},
 };
@@ -127,7 +127,7 @@ It also has the non-required method **update(...)**, which is called every time 
 action with types specified in 
 >updateOn: [....]
 
-In array you can specify types of actions like ['actionOne', 'actionTwo'] or even specify mere precisely [{actionOne: 'init' }] 
+In array you can specify types of actions like ['actionOne', 'actionTwo'] or even specify more precisely [{actionOne: 'init' }] 
 
 Let's see our example of *LoadUser* processor.
 ```typescript
