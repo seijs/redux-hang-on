@@ -86,7 +86,7 @@ Something like this
 
 ```typescript
 import { IState } from  'src/_redux/types';
-import { MakeProcessorType } from  'src/@seijs/redux-hang-on/lib/types';
+import { MakeProcessorType } from  '@seijs/redux-hang-on/lib/types';
 import { IUserTriggers} from  '../__reducers';
 import { LoadUser } from  './LoadUser;
 
