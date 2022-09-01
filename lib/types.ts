@@ -84,5 +84,5 @@ export type ProcessorUpdateArgs<IR, IStore> = {
   trigger: keyof IR;
   status: keyof OmitNever<PickWithKeys<IR>>[keyof OmitNever<PickWithKeys<IR>>];
   nextState: IStore;
-  stop: () => void;
+  stop: (args?: {keepUpdate: boolean}) => void;
 };

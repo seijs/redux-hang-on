@@ -37,10 +37,12 @@ export function BeforeUpdate(
   const stateCopy = { ...state };
   const reducer = pickReducer(reducers, trigger, status);
   let propagate = true;
-  const stopPropagate = () => {
+  let keepUpdate = false;
+  const stopPropagate = (args?: { keepUpdate: boolean }) => {
+    keepUpdate = (args && args.keepUpdate) || false;
     propagate = false;
   };
-  reducer(stateCopy[sliceName], actionPayload);
+
   if (instance.update) {
     const { trigger, status } = getTriggerAndStatus(actionType);
     const updateArgs = {
@@ -51,7 +53,10 @@ export function BeforeUpdate(
       stop: stopPropagate,
     };
 
-    instance.update(updateArgs, stopPropagate);
+    instance.update(updateArgs);
+    if (!propagate && keepUpdate) {
+      reducer(stateCopy[sliceName], actionPayload);
+    }
   }
 
   return propagate;
