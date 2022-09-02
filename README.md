@@ -124,8 +124,8 @@ is a processor class itselves.
 Processor class has required method **init(...)** which accepts triggered action payload and
 is called when this action is dispatched.
 It also has the non-required method **update(...)**, which is called every time when
-action with types specified in 
->updateOn: [....]
+actions with types specified in 
+>updateOn: [....] are dispatched.
 
 In array you can specify types of actions like ['actionOne', 'actionTwo'] or even specify more precisely [{actionOne: 'init' }] 
 
@@ -158,10 +158,12 @@ export  class  LoadUser {
 	}
 
 	public async  update(args: ProcessorUpdateArgs<IUserTriggers, IState>) {
+
+		this.opts.hangOn()
 		/* 
         ** Here you can do all the same staff and 
-		** call args.stop() to prevent reducer call. WOW!
-		** this is not all  - you can call it like args.stop({keepUpdate: true}) 
+		** call args.hangOn() to prevent reducer call. WOW!
+		** this is not all  - you can call it like args.hangOn({keepUpdate: true}) 
 		** to update state but without reducer call ( and subcequent  rendering in
 		** react components). 
 		*/
