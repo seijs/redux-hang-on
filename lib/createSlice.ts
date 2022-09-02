@@ -12,11 +12,11 @@ export function createSlice<IStore, Store, ITrigger>(args: {
   sliceName: string;
 }) {
   return {
-    reducer: makeReducer(args.reducer, args.initialState),
+    reducer: { [args.sliceName]: makeReducer(args.reducer, args.initialState) },
     middleware: makeProcMiddleware(
       args.processor,
       args.reducer,
-      args.sliceName
-    ),
+      args.sliceName,
+    )
   };
 }

@@ -198,9 +198,9 @@ export type IState = {
   user: IUserState;
 };
 
-//property name here should be same as slice name
+
 const rootReducer = combineReducers({
-  user: userSlice.reducer,
+  ...userSlice.reducer,
 });
 
 function configureStore() {
