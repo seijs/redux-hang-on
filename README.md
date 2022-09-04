@@ -15,7 +15,7 @@ yarn add @seijs/redux-hang-on
 
 ## Usage
 
-To use it, implement *redux slice*  as follows.
+To use it, implement *Slice* and it's *Bites*  as follows.
 First *reducer* part
 ```typescript
 
@@ -32,36 +32,61 @@ export  interface  IUserSate {
 }
 
 export  interface  IUserTriggers {
-	loadUser: {
+	resetUserState: IUserSate
+	loadUser: TriggerPhaseWrapper<{
 		wait: never;
 		done: User;
 		fail: string;
-	}
+	}>
 };
   
-export  type  UserReducerType = MakeReducerType<IUserTriggers, IUserSate>;
 
 export  const  userInitialState: IUserSate = {
 	user:  null,
 	loading:  false,
 };
 
-export  const  userReducer: UserReducerType = {
-	loadUser: {
-		wait:  loadUserWait,
-		done:  loadUserDone,
-		fail:  null,
-	}
-},
+
+const loadUserBite = Bite<IUserTriggers, ITriggers, IUserState, 'loadUser'>(
+  {
+  	wait:  loadUserWait,
+	done:  loadUserDone,
+	fail:  null,
+  },
+  {
+    updateOn: [{ loadUser:  'done' }],
+    canTrigger: [],
+    instance: 'stable',
+    script: LoadUser,
+    triggerStatus: 'wait',
+  }
+);
+const resetUserStateBite = Bite<IUserTriggers, ITriggers, IUserState, 'resetUserState'>(
+  resetUserState,
+  null
+);
+
+export const userSlice = Slice<IUserTriggers, ITriggers, IUserState>(
+  'user',
+  {
+    loadUser: loadUserBite,
+    resetUserState: resetUserStateBite,
+  },
+  appInitialState
+);
+
+
+
 ```
-where reducers *loadUserWait* and *loadUserDone* behaves like they are mutating state
+where first argument of *Bite* function is reducer (or object of {pahaseName: phaseReduer}),
+*loadUserWait* and *loadUserDone* behaves like they are mutating state.
 
 ```typescript
 import { UserReducerType } from  '.';
 
   
 
-export  const  loadUserDone: UserReducerType['loadUser']['done'] = (
+export  const  loadUserDone = (
 	state,
 	payload
 ) => {
@@ -69,41 +94,28 @@ export  const  loadUserDone: UserReducerType['loadUser']['done'] = (
 	state.loading = false;
 };
 
-export  const  loadUserWait: UserReducerType['loadUser']['wait'] = (
+export  const  loadUserWait = (
 	state,
 	payload
 ) => {
 	state.loading = true;
 };
 ```
-Nice. Next let's implement very interesting object, which feeds one of the key features of **redux-hang-on** library. 
+
+Second argument is **processor configuration object**, 
+which feeds one of the key features of **redux-hang-on** library. 
+What is processor? This is  where all the business happens.
+Something like this
+
+
+Nice. Next let's implement very interesting object, 
 
 The *processor* part.
 
 First discuss the **processor configuration object**.
 What is processor? This is  where all the business happens.
-Something like this
 
-```typescript
-import { IState } from  'src/_redux/types';
-import { MakeProcessorType } from  '@seijs/redux-hang-on/lib/types';
-import { IUserTriggers} from  '../__reducers';
-import { LoadUser } from  './LoadUser;
-
-export  type  IUserProcessor = MakeProcessorType<IUserTriggers, IState>;
-
-export  const  userProcessor: IUserProcessor = {
-	loadUser: {
-		saga:  LoadUser,
-		instance:  'stable',
-		triggerStatus:  'wait',
-		updateOn: [{ loadUser:  'done' }],
-		canTrigger: ['loadUser'],
-	},
-};
-
-```
-Here 
+In this configuration object 
 > loadUser: { 
 triggerStatus: wait 
 ...
@@ -111,7 +123,7 @@ triggerStatus: wait
 
 means that process inits when *action* with the type *loadUser/wait* is dispatched.
 
->saga: LoadUser
+>script: LoadUser
 
 is a processor class itselves. 
 
