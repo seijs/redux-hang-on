@@ -1,4 +1,4 @@
-import { getActionType }  from '../../utils';
+import { getActionType } from '../../utils';
 
 export function Save(store, config, system, uid) {
   const canTrigger = config.config.canTrigger;

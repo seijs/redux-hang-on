@@ -1,26 +1,11 @@
-/*
- ** Callback is processor's updatePreflight function
- ** accespts nextStore
- */
-
 import { getTriggerAndStatus } from '../../utils';
-
-interface Args {
-  config: any;
-  reducers: unknown;
-  cb: Function;
-  state: any;
-  status: string;
-  trigger: string;
-  action: any;
-}
 
 function pickReducer(reducers: any, trigger: string, status: string): any {
   if (reducers[trigger]) {
     if (typeof reducers[trigger] === 'function') {
-      return reducers[trigger];
+      return reducers[trigger].bind(this);
     } else if (typeof reducers[trigger][status] === 'function') {
-      return reducers[trigger][status];
+      return reducers[trigger][status].bind(this);
     }
   }
 }
@@ -34,6 +19,7 @@ export function BeforeUpdate(
   sliceName
 ) {
   const { trigger, status } = getTriggerAndStatus(actionType);
+
   const reducer = pickReducer(reducers, trigger, status);
   let propagate = true;
   let keepUpdate = false;

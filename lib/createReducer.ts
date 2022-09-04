@@ -1,5 +1,5 @@
 import { useSystem } from './System';
-import { MakeReducerType, GetByKey } from './types';
+import { MakeReducerType } from './types';
 import { getNullReducersNames } from './utils';
 
 function makeImmutable(state, payload, reducer) {

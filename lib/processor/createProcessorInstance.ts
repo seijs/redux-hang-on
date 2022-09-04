@@ -22,7 +22,7 @@ export function createProcessorInstance(
 }
 
 function multipleMode(system, config, opt, actionType) {
-  const processor = config.saga;
+  const processor = config.script;
   const newInstance = new processor(opt);
   const processUid = opt.uid;
   system.upProcess(newInstance, actionType, processUid);
@@ -31,7 +31,7 @@ function multipleMode(system, config, opt, actionType) {
 }
 
 function stableMode(system, config, opt, actionType) {
-  const processor = config.saga;
+  const processor = config.script;
   const processUid = opt.uid;
   const found = system.findProcess(actionType);
   if (found.length) {
@@ -44,7 +44,7 @@ function stableMode(system, config, opt, actionType) {
 }
 
 function refreshingMode(system, config, opt, actionType) {
-  const processor = config.saga;
+  const processor = config.script;
   const found = system.findProcess(actionType);
   const processUid = opt.uid;
   if (found) {

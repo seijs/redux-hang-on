@@ -1,2 +1,3 @@
 
-export {createSlice} from './createSlice' 
+export {Slice} from './Slice'
+export {Bite} from './Bite' 
