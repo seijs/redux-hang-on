@@ -1,6 +1,6 @@
 {
   "name": "@seijs/redux-hang-on",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Library for nice and scalable organizing of business logic in redux applications",
   "files": ["lib", "index.d.ts", "readme.md"],
   "keywords": ["react", "redux"],
