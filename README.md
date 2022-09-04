@@ -20,7 +20,6 @@ First *reducer* part
 ```typescript
 
 import { User } from  'src/_api/types/entities';
-import { MakeReducerType } from  '@seijs/redux-hang-on/lib/types';
 import { loadUserDone } from  './loadUserDone';
 import { loadUserWait } from  './loadUserWait';
 
@@ -83,10 +82,10 @@ where first argument of *Bite* function is reducer (or object of {pahaseName: ph
 
 ```typescript
 import { UserReducerType } from  '.';
-
+import { ReducerArgsType } from '@seijs/redux-hang-on/lib/types'
   
 
-export  const  loadUserDone = (
+export  const  loadUserDone: ReducerArgsType<IUserTriggers>['loadUser']['done'] = (
 	state,
 	payload
 ) => {
@@ -94,7 +93,7 @@ export  const  loadUserDone = (
 	state.loading = false;
 };
 
-export  const  loadUserWait = (
+export  const  loadUserWait: ReducerArgsType<IUserTriggers>['loadUser']['wait'] = (
 	state,
 	payload
 ) => {
@@ -129,11 +128,11 @@ is a processor class itselves.
 
 >instance : ... 
 
- configures mode of creating of *LoadUser* class instance. There are three types of modes: **stable**, **refreshing** and **multiple**. **stable** means instance is created once when triggering action is dispatched and lives in the context until it will be manually dropped. On **refreshing** mode, instance is getting dropped and recreated every time. On **multiple**, the new instance of corresponding processor class is created (with different uid).
+ configures mode of creating of *LoadUser* class instance. There are three types of modes: **stable**, **refreshing** and **multiple**. **stable** means instance is created once when triggering action is dispatched and lives in the context until it will be manually dropped. On **refreshing** mode, instance is getting dropped and recreated every time. On **multiple**, the new instance of corresponding script class is created (with different uid).
 
   
 
-Processor class has required method **init(...)** which accepts triggered action payload and
+Script class has required method **init(...)** which accepts triggered action payload and
 is called when this action is dispatched.
 It also has the non-required method **update(...)**, which is called every time when
 actions with types specified in 
@@ -141,20 +140,21 @@ actions with types specified in
 
 In array you can specify types of actions like ['actionOne', 'actionTwo'] or even specify more precisely [{actionOne: 'init' }] 
 
-Let's see our example of *LoadUser* processor.
+Let's see our example of *LoadUser* script.
 ```typescript
 
-import { ProcessorUpdateArgs } from  '@seijs/redux-hang-on/lib/types';
+import { ScriptUpdateArgsType,
+	 ScriptInitArgsType, 
+	 ScriptOptsType } from  '@seijs/redux-hang-on/lib/types';
 import { IState } from  'src/_redux/types';
-import { IUserProcessor } from  '.';
 import { IUserTriggers } from  '../__reducers';
 
   
 
 export  class  LoadUser {
-	constructor(private  opts: IUserProcessor['loadUser']['opts']) {}
+	constructor(private  opts: ScriptOptsType<IUserTriggers, ITriggers, IState,'loadUser'>) {}
 
-	public  async  init(args: IUserTriggers['loadUser']['wait']) {
+	public  async  init(args: ScriptInitArgsType<IUserTriggers, 'loadUser', 'wait'>) {
 		/*
         ** Here you can call side effects, 
 		** dispatch actions 
@@ -169,7 +169,7 @@ export  class  LoadUser {
 		}, 5000);
 	}
 
-	public async  update(args: ProcessorUpdateArgs<IUserTriggers, IState>) {
+	public async  update(args: ScriptUpdateArgsType<IUserTriggers, 'loadUser', 'done'>) {
 
 		this.opts.hangOn()
 		/* 
@@ -183,34 +183,21 @@ export  class  LoadUser {
 	}
 }
 ```
-Inside the processor all the actions that could be triggered are specified in 
+Inside the script all the actions that could be triggered are specified in 
 >canTrigger : [...]
 
-Now wrap it all into *slice*
-
-```typescript
-import { createSlice } from '@seijs/redux-hang-on/createSlice';
-import { eventsProcessor } from './__processors';
-import { eventsInitialState, eventsReducer } from './__reducers';
-
-export const userSlice = createSlice({
-  reducer: userReducer as any,
-  processor: userProcessor as any,
-  initialState: userInitialState,
-  sliceName: 'user',
-});
-```
-And plug it into *redux* *store*
+Now  plug it into *redux* *store*
 
 ```typescript
 import { createStore, applyMiddleware, compose, Middleware } from 'redux';
-import { userSlice } from 'src/user/__module';
-import { IUserState } from 'src/user/__reducers';
+import { userSlice, IUserState } from 'src/user/slice.config.t';
 
 
 export type IState = {
   user: IUserState;
 };
+
+export type ITriggers = IUserTriggers
 
 
 const rootReducer = combineReducers({

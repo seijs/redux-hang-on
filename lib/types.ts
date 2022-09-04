@@ -65,6 +65,11 @@ export type DefautOpts<
   state: IState;
 };
 
+export type ReducerArgsType<ITrigger> = {
+  [K in keyof ITrigger]: ITrigger[K] extends TriggerPhaseWrapper<Record<string, unknown>> ? ReturnType<ITrigger[K]>:ITrigger[K]
+}
+
+
 // export type MakeProcessorType<IR, IStore> = Partial<{
 //   [key in keyof IR]: {
 //     triggerStatus: keyof OmitNever<PickWithKeys<IR>>[keyof OmitNever<
