@@ -2,12 +2,16 @@ import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 export const App = () => {
-  const dispatch = useDispatch();
+  const trigger = useTrigger();
+
   const handleClickInit = (e) => {
-    dispatch({ type: 'loadApp/wait' });
+    trigger('loadApp', 'wait', {
+      foo: '1',
+      bar: 2,
+    });
   };
   const handleClickUpdate = (e) => {
-    dispatch({ type: 'loadApp/done', payload: 1 });
+    trigger('loadApp', 'done', 1);
   };
 
   const app = useSelector(
