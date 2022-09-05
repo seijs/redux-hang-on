@@ -1,4 +1,4 @@
-import { getTriggerAndStatus } from '../../utils';
+import { getActionType, getTriggerAndStatus } from '../../utils';
 
 function pickReducer(reducers: any, trigger: string, status: string): any {
   if (reducers[trigger]) {
@@ -28,6 +28,7 @@ export function BeforeUpdate(
     propagate = false;
   };
 
+
   if (instance.update) {
     const { trigger, status } = getTriggerAndStatus(actionType);
     const updateArgs = {
@@ -37,7 +38,19 @@ export function BeforeUpdate(
       hangOn: stopPropagate,
     };
 
-    instance.update(updateArgs);
+
+    if(instance.updatable) {
+      const foundKey = Object.keys(instance.updatable).find( u => u === getActionType(updateArgs.trigger, updateArgs.status) )
+      if(foundKey) {
+        instance[instance.updatable[foundKey]](updateArgs)
+      }
+      else {
+        instance.update(updateArgs);
+      }
+    }
+    else {
+      instance.update(updateArgs);
+    }
     if (!propagate && keepUpdate) {
       const stateCopy = { ...state };
       reducer(stateCopy[sliceName], actionPayload);

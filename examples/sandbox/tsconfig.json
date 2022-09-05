@@ -22,7 +22,7 @@
     "downlevelIteration": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
   },
   "include": [
     "src/**/*.tsx",

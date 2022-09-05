@@ -1,4 +1,4 @@
-import { Bite, Slice } from '@seijs/redux-hang-on';
+import { Bite, Slice } from '../../../../dist/lib';
 import { TriggerPhaseWrapper } from '@seijs/redux-hang-on/lib/types';
 import { LoadApp } from './scripts/LoadApp.script';
 import { loadAppDone } from './reducers/loadEventsDone.reducer';
@@ -37,11 +37,11 @@ const loadAppBite = Bite<IAppTriggers, ITriggers, IAppState, IState, 'loadApp'>(
     fail: null, // since reducer is null - store will no be renewed
   },
   {
-    updateOn: [{'loadApp': 'done'}],
+    updateOn: ['loadApp'],
     canTrigger: [],
     instance: 'stable',
     script: LoadApp,
-    triggerStatus: 'fail',
+    triggerStatus: 'wait',
   }
 );
 
