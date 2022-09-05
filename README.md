@@ -22,7 +22,7 @@ First *reducer* part
 import { User } from  'src/_api/types/entities';
 import { loadUserDone } from  './loadUserDone';
 import { loadUserWait } from  './loadUserWait';
-
+import { IState, ITriggers } from 'src/_redux/types'
   
 
 export  interface  IUserSate {
@@ -46,7 +46,7 @@ export  const  userInitialState: IUserSate = {
 };
 
 
-const loadUserBite = Bite<IUserTriggers, ITriggers, IUserState, 'loadUser'>(
+const loadUserBite = Bite<IUserTriggers, ITriggers, IUserState, IState, 'loadUser'>(
   {
   	wait:  loadUserWait,
 	done:  loadUserDone,
@@ -60,18 +60,18 @@ const loadUserBite = Bite<IUserTriggers, ITriggers, IUserState, 'loadUser'>(
     triggerStatus: 'wait',
   }
 );
-const resetUserStateBite = Bite<IUserTriggers, ITriggers, IUserState, 'resetUserState'>(
+const resetUserStateBite = Bite<IUserTriggers, ITriggers, IUserState, IState, 'resetUserState'>(
   resetUserState,
   null
 );
 
-export const userSlice = Slice<IUserTriggers, ITriggers, IUserState>(
+export const userSlice = Slice<IUserTriggers, ITriggers, IUserState, IState>(
   'user',
   {
     loadUser: loadUserBite,
     resetUserState: resetUserStateBite,
   },
-  appInitialState
+  userInitialState
 );
 
 
@@ -82,10 +82,10 @@ where first argument of *Bite* function is reducer (or object of {pahaseName: ph
 
 ```typescript
 import { UserReducerType } from  '.';
-import { ReducerArgsType } from '@seijs/redux-hang-on/lib/types'
+import { MakeBiteReducerType } from '@seijs/redux-hang-on/lib/types'
   
 
-export  const  loadUserDone: ReducerArgsType<IUserTriggers>['loadUser']['done'] = (
+export  const  loadUserDone: MakeBiteReducerType<IUserTriggers, IUserState, 'loadUser'>['done'] = (
 	state,
 	payload
 ) => {
@@ -93,7 +93,7 @@ export  const  loadUserDone: ReducerArgsType<IUserTriggers>['loadUser']['done'] 
 	state.loading = false;
 };
 
-export  const  loadUserWait: ReducerArgsType<IUserTriggers>['loadUser']['wait'] = (
+export  const  loadUserWait: MakeBiteReducerType<IUserTriggers, IUserState, 'loadUser'>['wait'] = (
 	state,
 	payload
 ) => {

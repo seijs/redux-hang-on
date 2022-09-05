@@ -2,9 +2,9 @@ import { makeProcMiddleware } from './createMiddleware';
 import { makeReducer } from './createReducer';
 import { MakeBiteType } from './types';
 
-export const Slice = <ITrigger, IRootTrigger, IState>(
+export const Slice = <ITrigger, IRootTrigger, IState, IRootState>(
   sliceName: string,
-  bites: MakeBiteType<ITrigger, IRootTrigger, IState>,
+  bites: MakeBiteType<ITrigger, IRootTrigger, IState, IRootState>,
   initialState: IState
 ) => {
   const reducer = Object.keys(bites).reduce(
