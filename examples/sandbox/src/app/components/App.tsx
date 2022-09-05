@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useTrigger } from 'src/_redux/useTrigger';
 
 export const App = () => {
   const trigger = useTrigger();
