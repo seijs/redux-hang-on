@@ -3,7 +3,7 @@
 Library for nice and scalable organizing of business logic in redux applications.
 
 ## Motivation
-No more *store.dispatch* hell. Just nicely readable and configurable in one place class-definitively styled description of the business logic of your application. Good solution for large enterprise react-redux projects.
+**Use Dispatch for Free**. No more *store.dispatch* hell. Just nicely readable and configurable in one place class-definitively styled description of the business logic of your application. Good solution for large enterprise react-redux projects.
 
 ## Installation
 
