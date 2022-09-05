@@ -16,7 +16,6 @@ yarn add @seijs/redux-hang-on
 ## Usage
 
 To use it, implement *Slice* and it's *Bites*  as follows.
-First *reducer* part
 ```typescript
 
 import { User } from  'src/_api/types/entities';
@@ -101,20 +100,11 @@ export  const  loadUserWait: MakeBiteReducerType<IUserTriggers, IUserState, 'loa
 };
 ```
 
-Second argument is **processor configuration object**, 
+Second argument is **processor configuration object** (PCO), 
 which feeds one of the key features of **redux-hang-on** library. 
 What is processor? This is  where all the business happens.
-Something like this
 
-
-Nice. Next let's implement very interesting object, 
-
-The *processor* part.
-
-First discuss the **processor configuration object**.
-What is processor? This is  where all the business happens.
-
-In this configuration object 
+In PCO 
 > loadUser: { 
 triggerStatus: wait 
 ...
