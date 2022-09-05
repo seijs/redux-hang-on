@@ -6,7 +6,6 @@ import store from '../_redux';
 import { ErrorBoundary } from '../_components';
 
 
-import '../_styles/index.less';
 import { App } from 'src/app/components/App';
 
 const Application = () => (

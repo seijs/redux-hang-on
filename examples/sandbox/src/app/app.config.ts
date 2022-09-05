@@ -37,11 +37,11 @@ const loadAppBite = Bite<IAppTriggers, ITriggers, IAppState, IState, 'loadApp'>(
     fail: null, // since reducer is null - store will no be renewed
   },
   {
-    updateOn: [{ loadApp: 'fail' }],
+    updateOn: [{'loadApp': 'done'}],
     canTrigger: [],
     instance: 'stable',
     script: LoadApp,
-    triggerStatus: 'done',
+    triggerStatus: 'fail',
   }
 );
 

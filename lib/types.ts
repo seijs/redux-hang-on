@@ -99,7 +99,7 @@ export type MakeBiteProcessorType<
           Record<keyof ITrigger, TriggerPhaseKeys<ITrigger, keyof ITrigger>>
         >
       >
-    | keyof ITrigger;
+    | Array<keyof ITrigger>;
   instance: 'stable' | 'multiple' | 'refreshing';
 
   script: unknown; //IA[key];
