@@ -1120,10 +1120,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@seijs/redux-hang-on@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@seijs/redux-hang-on/-/redux-hang-on-0.1.2.tgz#96dc8d22619e892b1a198aa6d8cadc4fcedc9fd5"
-  integrity sha512-fx7MtEBb/gQS4em7ATn+Ox4jzbpP0tOmWTtc0CMN+8b6eYFALD0yTWu9J38B2bE4DP9bQuUkQgAgKT6dgZXvZQ==
+"@seijs/redux-hang-on@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@seijs/redux-hang-on/-/redux-hang-on-0.1.4.tgz#4c439b781f99a38aab7edad327cdc7f763134656"
+  integrity sha512-Va+cxsKhr0pvxq2fAQ8z9z5OoxY/DpdMpTybJ2mJ9QIZZytC0vBBqZkGCFcKYVxJvKAihcAVYHtCTMHYiYV39g==
 
 "@svgr/babel-plugin-add-jsx-attribute@^6.3.1":
   version "6.3.1"

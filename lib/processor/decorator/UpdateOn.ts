@@ -8,7 +8,6 @@ export const  UpdateOn = (trigger, status: string | null) => {
          }
          else {
             targetClass.updatable = {...targetClass.updatable, [actionType]: propertyKey }
-         }
-        return descriptor.value
+        }
     };
 }

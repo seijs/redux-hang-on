@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/k.astapov/.nvm/versions/node/v16.17.0/bin/node /usr/local/bin/yarn add @babel/preset-plugin-proposal-decorators --dev
+  /Users/k.astapov/.nvm/versions/node/v16.17.0/bin/node /usr/local/bin/yarn add @seijs/redux-hang-on
 
 PATH: 
   /Users/k.astapov/.nvm/versions/node/v16.17.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin

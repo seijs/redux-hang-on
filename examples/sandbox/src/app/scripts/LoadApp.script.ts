@@ -30,6 +30,7 @@ export class LoadApp {
     foo() {
         console.log('foo!');
     }
+
     //@ts-ignore
     @UpdateOn('loadApp', 'done')
     bar() {
