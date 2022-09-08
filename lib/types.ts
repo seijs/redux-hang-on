@@ -42,6 +42,14 @@ export type DispatcherType<IR> = <
   payload: TriggerPhasePayload<IR, K, S>
 ) => void;
 
+export type WaiterType<IR> = <
+  K extends keyof IR,
+  S extends TriggerPhaseKeys<IR, K>
+>(
+  type: K,
+  status: S
+) => Promise<TriggerPhasePayload<IR, K, S>>;
+
 export type SetStatusType<IR, K extends keyof IR> = <
   S extends TriggerPhaseKeys<IR, K>
 >(
@@ -58,6 +66,7 @@ export type DefautOpts<
   setStatus: SetStatusType<ITrigger, BiteName>;
   trigger: DispatcherType<IRootTrigger>;
   triggerOnly: DispatcherType<IRootTrigger>;
+  wait: WaiterType<IRootTrigger>;
   save: DispatcherType<IRootTrigger>;
   uid: string;
   getCurrentState: () => IState;

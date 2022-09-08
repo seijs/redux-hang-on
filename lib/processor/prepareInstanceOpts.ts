@@ -4,6 +4,7 @@ import { Trigger } from './opts/trigger';
 import { v4 } from 'uuid';
 import { Save } from './opts/save';
 import { TriggerOnly } from './opts/triggerOnly';
+import { Wait } from './opts/wait';
 
 export function prepareOpts(config, store, system) {
   const processUid = v4();
@@ -14,9 +15,10 @@ export function prepareOpts(config, store, system) {
   const drop = Drop(system, config);
   const state = store.getState();
   const getCurrentState = store.getState;
-
+  const wait = Wait(store, config, system, processUid);
   return {
     uid: processUid,
+    wait, 
     trigger,
     triggerOnly,
     save,

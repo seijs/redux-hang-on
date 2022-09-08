@@ -15,6 +15,9 @@ export class System {
   }
 
   public context: { [triggerer: string]: any } = {};
+ 
+
+  private waits: { [triggerer: string]: any } = {};
 
   private processors: { [triggerer: string]: any } = {};
 
@@ -25,6 +28,17 @@ export class System {
 
     return arr.length > 1 ? arr[1] : null;
   };
+
+  public addWait(trigger: string, {resolve, reject, args}) {
+    this.waits[trigger] = {resolve, reject, args}
+  }
+
+  public resolveWait(trigger: string, args) {
+      if(this.waits[trigger]) {
+        this.waits[trigger].resolve(args)
+        delete(this.waits[trigger])
+      }
+  }
 
   public findProcess(trigger: string) {
     return Object.keys(this.context)
