@@ -50,6 +50,18 @@ export type WaiterType<IR> = <
   status: S
 ) => Promise<TriggerPhasePayload<IR, K, S>>;
 
+export type HookerType<IR> = <
+  K extends keyof IR,
+  S extends TriggerPhaseKeys<IR, K>,
+  P extends TriggerPhaseKeys<IR, K>,
+>(
+  type: K,
+  statusStart: S,
+  statusStop: P,
+  startArgs: TriggerPhasePayload<IR, K, S>
+) => Promise<TriggerPhasePayload<IR, K, P>>;
+
+
 export type SetStatusType<IR, K extends keyof IR> = <
   S extends TriggerPhaseKeys<IR, K>
 >(
@@ -67,6 +79,7 @@ export type DefautOpts<
   trigger: DispatcherType<IRootTrigger>;
   triggerOnly: DispatcherType<IRootTrigger>;
   wait: WaiterType<IRootTrigger>;
+  hook: HookerType<IRootTrigger>;
   save: DispatcherType<IRootTrigger>;
   uid: string;
   getCurrentState: () => IState;
