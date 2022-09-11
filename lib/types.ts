@@ -1,3 +1,5 @@
+import { Dispatch } from "redux";
+
 export type GetByKey<T, K> = K extends keyof T ? T[K] : null;
 
 export type MakeReducerType<AC, StoreType> = {
@@ -75,6 +77,8 @@ export type DefautOpts<
   IState,
   BiteName extends keyof ITrigger
 > = {
+  customOpts: unknown;
+  dispatch: Dispatch;
   setStatus: SetStatusType<ITrigger, BiteName>;
   trigger: DispatcherType<IRootTrigger>;
   triggerOnly: DispatcherType<IRootTrigger>;

@@ -20,6 +20,7 @@ export function prepareOpts(config, store, system) {
   const wait = Wait(store, config, system, processUid);
   const hook = Hook(store, config, system, processUid)
   return {
+    dispatch: store.dispatch,
     uid: processUid,
     wait,
     hook, 
