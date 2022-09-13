@@ -1,9 +1,9 @@
 import { Bite, Slice } from '../../../../dist/lib';
 import { TriggerPhaseWrapper } from '@seijs/redux-hang-on/lib/types';
 import { LoadApp } from './scripts/LoadApp.script';
-import { loadAppDone } from './reducers/loadEventsDone.reducer';
-import { loadAppWait } from './reducers/loadEventsWait.reducer';
 import { IState, ITriggers } from 'src/_redux/types';
+import { Go } from './scripts/Go.script';
+import { Supply } from './scripts/Supply.script';
 
 export interface IAppState {
   app: string | null | number;
@@ -11,17 +11,24 @@ export interface IAppState {
 }
 
 export interface IAppTriggers {
-  setApp: {
-    one: string;
-    two: number;
-  };
-  loadApp: TriggerPhaseWrapper<{ // This type wrapper is needed when trigger (action type) has subtriggers 
-    wait: {
-      foo: string;
-      bar: number;
-    };
-    done: string | number;
-    fail: string;
+  setAppState: IAppState
+  setApp: TriggerPhaseWrapper<{
+    init: never;
+    drop: never;
+  }>;
+  supply: TriggerPhaseWrapper<{
+    init: never;
+    milk_start: never;
+    milk_end: number;
+    meat_start: never;
+    meat_end: number
+  }>;
+  go: TriggerPhaseWrapper<{
+    init: never;
+    forward_start: never;
+    forward_end: never;
+    backward_start: never;
+    backward_end: never;
   }>;
 }
 
@@ -30,33 +37,71 @@ export const appInitialState: IAppState = {
   loading: true,
 };
 
-const loadAppBite = Bite<IAppTriggers, ITriggers, IAppState, IState, 'loadApp'>(
+const setAppBite = Bite<IAppTriggers, ITriggers, IAppState, IState, 'setApp'>(
   {
-    wait: loadAppWait,
-    done: loadAppDone,
-    fail: null, // since reducer is null - store will no be renewed
+    init: null,
+    drop: null, // since reducer is null - store will no be renewed
   },
   {
-    updateOn: ['loadApp'],
-    canTrigger: [],
+    updateOn: [{'setApp': 'drop'}],
+    canTrigger: ['go', 'setApp', 'supply'],
     instance: 'stable',
     script: LoadApp,
-    triggerStatus: 'wait',
+    triggerStatus: 'init',
   }
 );
 
 
-// NO reducer, No processor
-const setAppBite = Bite<IAppTriggers, ITriggers, IAppState, IState, 'setApp'>(
-  null,
+const goBite = Bite<IAppTriggers, ITriggers, IAppState, IState, 'go'>(
+  {
+    init: null,
+    'forward_start': null,
+    'forward_end': null,
+    'backward_start': null,
+    'backward_end': null
+  },
+  {
+    updateOn: ['go'],
+    canTrigger: ['go', 'supply', 'setAppState'],
+    instance: 'stable',
+    script: Go,
+    triggerStatus: 'init',
+  }
+);
+
+
+const supplyBite = Bite<IAppTriggers, ITriggers, IAppState, IState, 'supply'>(
+  {
+    init: null,
+   'meat_start': null,
+   'meat_end': null,
+   'milk_start': null,
+   'milk_end': null
+  },
+  {
+    updateOn: ['go', 'supply'], //Нучжны чекеры чтобы понимать что когда ты что-то можешь триггерить, это где-то слушалось
+    canTrigger: ['go', 'supply'],
+    instance: 'stable',
+    script: Supply,
+    triggerStatus: 'init',
+  }
+);
+
+
+const seAppStateBite = Bite<IAppTriggers, ITriggers, IAppState, IState, 'setAppState'>(
+  (state, payload) => { Object.assign(state, payload)},
   null
 );
+
+
 
 export const appSlice = Slice<IAppTriggers, ITriggers, IAppState, IState>(
   'app',
   {
-    loadApp: loadAppBite,
+    go: goBite,
     setApp: setAppBite,
+    supply: supplyBite,
+    'setAppState':seAppStateBite
   },
   appInitialState
 );

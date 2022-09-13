@@ -5,14 +5,11 @@ import { useTrigger } from 'src/_redux/useTrigger';
 export const App = () => {
   const trigger = useTrigger();
 
-  const handleClickInit = (e) => {
-    trigger('loadApp', 'wait', {
-      foo: '1',
-      bar: 2,
-    });
+  const forward = (e) => {
+    trigger('go', 'forward_start', null as never);
   };
-  const handleClickUpdate = (e) => {
-    trigger('loadApp', 'done', 1);
+  const back = (e) => {
+    trigger('go', 'backward_start', null as never);
   };
 
   const app = useSelector(
@@ -21,11 +18,16 @@ export const App = () => {
   );
   console.log('render');
 
+  React.useEffect(()=> {
+    trigger('setApp', 'init', null as never);
+  },[])
+  
+
   return (
     <div>
       <div>App</div>
-      <div onClick={handleClickInit}>Init</div>
-      <div onClick={handleClickUpdate}>Update</div>
+      <div onClick={forward}>Forward</div>
+      <div onClick={back}>BackWard</div>
       <div>{app.app}</div>
     </div>
   );

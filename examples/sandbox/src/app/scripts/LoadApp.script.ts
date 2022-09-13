@@ -9,31 +9,18 @@ import {UpdateOn} from '../../../../../dist/lib/processor/decorator/UpdateOn'
 
 export class LoadApp {
   constructor(
-    private opts: ScriptOptsType<IAppTriggers, ITriggers, IState, 'loadApp'>
+    private opts: ScriptOptsType<IAppTriggers, ITriggers, IState, 'setApp'>
   ) {}
 
-  public async init(args: ScriptInitArgsType<IAppTriggers, 'loadApp','wait'>) {
-    //this.opts.trigger('setApp', '', { one: 's', two: 2 });
-    const tes = await this.opts.wait('loadApp', 'done');
-    console.log(`tes ${tes}`)
-    
+  public async init(args: ScriptInitArgsType<IAppTriggers, 'setApp','init'>) {
+      console.log('LoadApp init');
+      this.opts.trigger('go', 'init', null as never);
+      this.opts.trigger('supply', 'init', null as never);
   }
 
-  public update(args: ScriptUpdateArgsType<ITriggers, 'loadApp', 'done'>) {
-    console.log('UPDATE')
-    //args.hangOn({keepUpdate: true})
-    //args.hangOn();
+  public update(args: ScriptUpdateArgsType<ITriggers, 'setApp', 'drop'>) {
+    console.log('LoadApp update')
+    this.opts.drop();
   }
 
-      //@ts-ignore
-      @UpdateOn('loadApp', 'wait')
-      foo() {
-          console.log('foo!');
-      }
-
-      //@ts-ignore
-      @UpdateOn('loadApp', 'done')
-      bar() {
-        console.log('bar!');
-      }
 }
