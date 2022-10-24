@@ -31,6 +31,6 @@ export function prepareOpts(config, store, system) {
     drop,
     getCurrentState,
     state,
-    customOpts: config.customOpts,
+    customOpts: config.config.customOpts,
   };
 }
