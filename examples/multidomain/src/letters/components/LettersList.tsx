@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useTrigger } from "src/_redux/useTrigger";
 import { useSelector } from "react-redux";
 import { IState } from "src/_redux/types";
-
+import {ComposeGrid} from 'src/compose/components/ComposeGrid'
 
 
 
@@ -15,13 +15,15 @@ export const LettersList = () => {
         }))
     
       React.useEffect(()=> {
-        trigger('lettersList', 'init', null as never);
+        trigger('lettersList', 'init', null);
       },[])
       
       return (
         <div>
+            <button onClick={() => trigger('setContent', 'openWindow', {id: '-1'})}>Create new</button>
              <div>Letters</div>
-            {isLoading ? <div>Загрузка ...</div>: null}
+             <div><ComposeGrid/></div>
+            {isLoading ? <div>Loading ...</div>: null}
             <div>
             { letters && letters.length ?  letters.map(l => 
                 <div key={l.uid}>{l.subject}</div>

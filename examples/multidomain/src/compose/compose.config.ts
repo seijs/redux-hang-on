@@ -4,6 +4,7 @@ import { Bite, Slice } from "../../../../dist/lib"
 import { TriggerPhaseWrapper } from "../../../../dist/lib/types"
 import { changeItemReducer } from "./reducers/changeItem.reducer"
 import { closeWindowRecucer } from "./reducers/closeWindow.reducer"
+import {openWindowReducer} from './reducers/openWindow.reducer'
 import { SetContentScript } from "./scripts/SetContent.script"
 
 
@@ -36,6 +37,10 @@ export interface IComposeTriggers {
         changeItem: { id: string; subject?: string };
         openWindow: { id: string | null };
         closeWindow: { id: string };
+        setForm: {
+          text: string,
+          input: 'subject' | 'body'
+        }
         done: null;
     }>
     saveLetter: TriggerPhaseWrapper<{
@@ -59,6 +64,7 @@ const setContentBite = Bite<
     changeItem: changeItemReducer,
     openWindow: openWindowReducer,
     closeWindow: closeWindowRecucer,
+    setForm: null,
     done: null
   },
   {
