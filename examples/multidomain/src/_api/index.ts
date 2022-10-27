@@ -16,7 +16,7 @@ export interface CreateLetterArgs {
 export const createLetter = async (args: CreateLetterArgs): Promise<{id: number}> => {
     return  new Promise((resolve, reject) => {
         setTimeout(() => {
-            resolve({id: Math.floor(Math.random()*1000)})
+            resolve({id: Math.floor(Math.random()*100)})
         } , 600)
     })
 } 

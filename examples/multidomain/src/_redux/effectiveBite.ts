@@ -86,7 +86,7 @@ class EffectScript{
                 co.onStart(this.opts.trigger)
             }
             const result = await this.opts.customOpts.promise()
-            this.opts.setStatus('done', result);
+            this.opts.setStatus('done',result);
             if(co &&  co.onDone) {
                 co.onDone(this.opts.trigger)
             }
@@ -95,6 +95,9 @@ class EffectScript{
             if(co && co.onError) {
                 co.onError(this.opts.trigger)
             }
+        }
+        finally {
+            this.opts.drop()
         }
     }
 

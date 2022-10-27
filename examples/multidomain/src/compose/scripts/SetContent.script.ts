@@ -12,7 +12,7 @@ export class SetContentScript {
     private fomrs: {[key: string]: {subject: string, body: string}} = {} 
 
     public init(args: ScriptInitArgsType<IComposeTriggers, 'setContent', 'init'>) {
-
+        
     }
 
     private handleCloseWindow(args:ScriptUpdateArgsType<IComposeTriggers,'setContent', 'closeWindow'>) {

@@ -3,7 +3,7 @@ import { TriggerPhaseWrapper } from '@seijs/redux-hang-on/lib/types';
 import { effectiveBite, EffectiveState, EffectiveTrigger, effectiveInitialState } from 'src/_redux/effectiveBite';
 import { ILetter } from './interfaces/Letter.interface';
 import { IState, ITriggers } from 'src/_redux/types';
-import { loadLetters } from 'src/_api';
+import { createLetter, loadLetters, updateLetter } from 'src/_api';
 import { deleteLetterReducer } from './reducers/deleteLetter.reducer';
 import { updateLetterReducer } from './reducers/updateLetter.reducer';
 import { saveLetterReducer } from './reducers/saveLetter.reducer';
@@ -33,12 +33,12 @@ const lettersListBite = effectiveBite<ILettersTriggers, ITriggers, ILettersState
     loadLetters, 'lettersList');
 
 const saveLetterBite = effectiveBite<ILettersTriggers, ITriggers, ILettersState, IState, 'saveLetter'>(
-    loadLetters, 'saveLetter', {
-        doneReducer: saveLetterReducer
-    });
+    createLetter, 'saveLetter')//, {
+      //  doneReducer: saveLetterReducer
+  //  });
     
 const updateLetterBite = effectiveBite<ILettersTriggers, ITriggers, ILettersState, IState, 'updateLetter'>(
-    loadLetters, 'updateLetter', {
+    updateLetter, 'updateLetter', {
         'doneReducer': updateLetterReducer
     });
    
