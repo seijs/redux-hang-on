@@ -6,6 +6,7 @@ import { changeItemReducer } from "./reducers/changeItem.reducer"
 import { closeWindowRecucer } from "./reducers/closeWindow.reducer"
 import {openWindowReducer} from './reducers/openWindow.reducer'
 import { SetContentScript } from "./scripts/SetContent.script"
+import { SubmitLetterScript } from "./scripts/SubmitLetter.script"
 
 
 export interface IComposeState  {
@@ -44,7 +45,7 @@ export interface IComposeTriggers {
         }
         done: null;
     }>
-    saveLetter: TriggerPhaseWrapper<{
+    submitLetter: TriggerPhaseWrapper<{
         init: null
         save: null
         done: null
@@ -78,12 +79,12 @@ const setContentBite = Bite<
   }
 );
 
-const saveLetterBite = Bite<
+const submitLetterBite = Bite<
   IComposeTriggers,
   ITriggers,
   IComposeState,
   IState,
-  'saveLetter'
+  'submitLetter'
 >(
   {
     init: null,
@@ -91,9 +92,9 @@ const saveLetterBite = Bite<
     done: null
   },
   {
-    updateOn: ['setContent'],
-    canTrigger: ['setFormState'],
-    script: SetContentScript,
+    updateOn: ['submitLetter'],
+    canTrigger: ['saveLetter', 'submitLetter', 'setContent'],
+    script: SubmitLetterScript,
     instance: 'stable',
     triggerStatus: 'init',
   }
@@ -117,7 +118,7 @@ export const composeSlice = Slice<IComposeTriggers, ITriggers, IComposeState, IS
     'compose',
       {
        'setContent': setContentBite,
-        'saveLetter':saveLetterBite,
+        'submitLetter':submitLetterBite,
         'setFormState': setFormStateBite
       },
       composeInitialState

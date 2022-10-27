@@ -1,5 +1,6 @@
 import { ScriptUpdateArgsType } from "@seijs/redux-hang-on/lib/types";
 import { IState, ITriggers } from "src/_redux/types";
+import { useSystem } from "../../../../../dist/lib";
 import { ScriptInitArgsType, ScriptOptsType } from "../../../../../dist/lib/types";
 import { IComposeTriggers } from "../compose.config";
 
@@ -11,8 +12,10 @@ export class SetContentScript {
 
     private fomrs: {[key: string]: {subject: string, body: string}} = {} 
 
+    private system;
+
     public init(args: ScriptInitArgsType<IComposeTriggers, 'setContent', 'init'>) {
-        
+        this.system = useSystem();
     }
 
     private handleCloseWindow(args:ScriptUpdateArgsType<IComposeTriggers,'setContent', 'closeWindow'>) {
@@ -75,6 +78,7 @@ export class SetContentScript {
         console.log(this.opts.getCurrentState())
         console.log(args.status)
         console.log(args.payload)
+        console.log(this.system)
         if(args.status === 'syncForm') {
             this.handleSyncForm(args as any);
         }

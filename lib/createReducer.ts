@@ -25,6 +25,7 @@ export function makeReducer<AC, StoreType>(
     state: StoreType = initialState,
     action: { type: string; payload: unknown }
   ) {
+   
     const parts = action.type.split('/');
     const [trigger, status] = [parts[0], parts[1]];
     if (!status) {
@@ -35,6 +36,7 @@ export function makeReducer<AC, StoreType>(
       }
     } else if (reducers[trigger]) {
       if (reducers[trigger][status]) {
+        console.log(action)
         return makeImmutable(state, action.payload, reducers[trigger][status]);
       }
     }

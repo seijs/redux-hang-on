@@ -33,9 +33,9 @@ const lettersListBite = effectiveBite<ILettersTriggers, ITriggers, ILettersState
     loadLetters, 'lettersList');
 
 const saveLetterBite = effectiveBite<ILettersTriggers, ITriggers, ILettersState, IState, 'saveLetter'>(
-    createLetter, 'saveLetter')//, {
-      //  doneReducer: saveLetterReducer
-  //  });
+    createLetter, 'saveLetter', {
+        doneReducer: saveLetterReducer
+  });
     
 const updateLetterBite = effectiveBite<ILettersTriggers, ITriggers, ILettersState, IState, 'updateLetter'>(
     updateLetter, 'updateLetter', {

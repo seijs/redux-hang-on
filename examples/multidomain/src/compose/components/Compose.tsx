@@ -41,7 +41,7 @@ export const Compose = () => {
                    className='body'
                 />
             </div>
-            <button onClick={()=> trigger('saveLetter','init', null)}>Сохранить</button>
+            <button onClick={()=> trigger('submitLetter','init', null)}>Сохранить</button>
             <button onClick={()=> trigger('setContent','closeWindow', null)}>Закрыть</button>
         </div>
         </div>
