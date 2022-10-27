@@ -1,4 +1,4 @@
-import { ScriptInitArgsType, ScriptOptsType, ScriptUpdateArgsType } from "@seijs/redux-hang-on/lib/types";
+import { ScriptInitArgsType, ScriptOptsType, ScriptUpdateArgsType } from "../../../../../dist/lib/types";
 import { IState, ITriggers } from "src/_redux/types";
 import { IComposeTriggers } from "../compose.config";
 
@@ -9,21 +9,23 @@ export class SubmitLetterScript {
 
 
 
-    public init(args: ScriptInitArgsType<IComposeTriggers, 'submitLetter', 'init'>) {
+    public async init(args: ScriptInitArgsType<IComposeTriggers, 'submitLetter', 'init'>) {
         const {subject, body, openedComposeId} = this.opts.getCurrentState().compose;
+        
+        this.opts.trigger('setContent', 'commitFormContent', null)
         this.opts.trigger('saveLetter', 'init', {
             'body': body,
             'subject': subject,
             'from': 'asapovk@gmail.com',
             'to': '',
-            'uid': 1
+            'uid': 123
         })
-        // trggier open with null
-        // then save
+        const savedId = await this.opts.wait('saveLetter', 'done')
+        this.opts.trigger('setContent', 'closeWindow', {id: openedComposeId})
     }
 
     public update(args: ScriptUpdateArgsType<IComposeTriggers, 'submitLetter', 'init' | 'done' | 'save'>) {
-            // catch save done
-            //
+        // catch save done
+        //
     }
 }

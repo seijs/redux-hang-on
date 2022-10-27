@@ -10,7 +10,7 @@ import { saveLetterReducer } from './reducers/saveLetter.reducer';
 
 export interface ILettersState {
     lettersList: EffectiveState<null, Array<ILetter>, Error>
-    saveLetter: EffectiveState<ILetter, number, Error>
+    saveLetter: EffectiveState<ILetter, {id:number}, Error>
     updateLetter: EffectiveState<{id: number, newLetter: ILetter}, boolean, Error>
     deleteLetter: EffectiveState<{id: number}, boolean, Error>
 }

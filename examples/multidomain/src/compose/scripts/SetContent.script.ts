@@ -44,7 +44,8 @@ export class SetContentScript {
                 if(currentId) {
                     const savedData =  this.fomrs[currentId]
                     if(savedData) {
-                        this.opts.trigger('setContent', 'changeItem', {
+                
+                    this.opts.trigger('setContent', 'changeItem', {
                             'subject': savedData.subject,
                             'id':  currentId
                         })
@@ -54,7 +55,6 @@ export class SetContentScript {
                         })
                     }
                 }
-                
             }
         }
     }
@@ -74,11 +74,24 @@ export class SetContentScript {
         }
     }
 
-    public update(args: ScriptUpdateArgsType<IComposeTriggers, 'setContent',  'syncForm' | 'openWindow' | 'closeWindow'>) {
-        console.log(this.opts.getCurrentState())
+    public handleCommitFormContent(args:ScriptUpdateArgsType<IComposeTriggers, 'setContent', 'commitFormContent'> ) {
+        const currentId = this.opts.getCurrentState().compose.openedComposeId
+        if(currentId) {
+            const savedData =  this.fomrs[currentId]
+            if(savedData) {
+                this.opts.trigger('setFormState', '', {
+                    'body': savedData.body,
+                    'subject': savedData.subject
+                })
+            }
+        }
+    }
+
+    public update(args: ScriptUpdateArgsType<IComposeTriggers, 'setContent',  'syncForm' | 'openWindow' | 'closeWindow' | 'commitFormContent'>) {
+       // console.log(this.opts.getCurrentState())
         console.log(args.status)
         console.log(args.payload)
-        console.log(this.system)
+       // console.log(this.system)
         if(args.status === 'syncForm') {
             this.handleSyncForm(args as any);
         }
@@ -87,6 +100,9 @@ export class SetContentScript {
         }
         if(args.status === 'closeWindow') {
             this.handleCloseWindow(args as any)
+        }
+        if(args.status === 'commitFormContent') {
+            this.handleCommitFormContent(args as any)
         }
     }
 

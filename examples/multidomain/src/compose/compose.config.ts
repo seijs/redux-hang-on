@@ -39,6 +39,7 @@ export interface IComposeTriggers {
         openWindow: { id: string | null };
         closeWindow: { id: string };
         submit: {id: string};
+        commitFormContent: null;
         syncForm: {
           text: string,
           input: 'subject' | 'body'
@@ -66,6 +67,7 @@ const setContentBite = Bite<
     changeItem: changeItemReducer,
     openWindow: openWindowReducer,
     closeWindow: closeWindowRecucer,
+    commitFormContent: null,
     submit: closeWindowRecucer,
     syncForm: null, // вытащить из хранилища форму и положить ее в стор
     done: null

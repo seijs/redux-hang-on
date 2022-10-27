@@ -3,6 +3,9 @@ import { ILettersState } from "../letters.config";
 
 
 
-export const saveLetterReducer = (state: ILettersState, payload: ILetter) => {
-    state.lettersList.data.push(payload)
+export const saveLetterReducer = (state: ILettersState, payload: {id: number}) => {
+    const newLetter = state.saveLetter.input
+    newLetter.uid = payload.id
+    console.log(`saveLetterReducer ${payload.id}`)
+    state.lettersList.data.push(newLetter)
 }
