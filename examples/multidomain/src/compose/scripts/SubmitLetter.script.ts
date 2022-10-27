@@ -21,11 +21,12 @@ export class SubmitLetterScript {
             'uid': 123
         })
         const savedId = await this.opts.wait('saveLetter', 'done')
+        //Here we can throw notification that savedId was just created. For example
         this.opts.trigger('setContent', 'closeWindow', {id: openedComposeId})
+        this.opts.drop()
     }
 
     public update(args: ScriptUpdateArgsType<IComposeTriggers, 'submitLetter', 'init' | 'done' | 'save'>) {
-        // catch save done
-        //
+        
     }
 }

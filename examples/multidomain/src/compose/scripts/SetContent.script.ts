@@ -5,12 +5,14 @@ import { ScriptInitArgsType, ScriptOptsType } from "../../../../../dist/lib/type
 import { IComposeTriggers } from "../compose.config";
 
 
-
-
+/*
+** This script is responsible for opening 
+** and closing window, managing form content.
+*/
 export class SetContentScript {
     constructor (private opts: ScriptOptsType<IComposeTriggers,ITriggers, IState, 'setContent'>) {}
 
-    private fomrs: {[key: string]: {subject: string, body: string}} = {} 
+    private forms: {[key: string]: {subject: string, body: string}} = {} 
 
     private system;
 
@@ -21,7 +23,7 @@ export class SetContentScript {
     private handleCloseWindow(args:ScriptUpdateArgsType<IComposeTriggers,'setContent', 'closeWindow'>) {
         const id = this.opts.getCurrentState().compose.openedComposeId
         if(id) {
-            delete this.fomrs[id]
+            delete this.forms[id]
         }
       
        
@@ -30,7 +32,7 @@ export class SetContentScript {
     // when window is getting opened we need this to restore saved state
     private handleOpenWindow(args:ScriptUpdateArgsType<IComposeTriggers,'setContent', 'openWindow'>) {
         if(args.payload.id) {
-            const savedData =  this.fomrs[args.payload.id]
+            const savedData =  this.forms[args.payload.id]
             if(savedData) {
                 this.opts.trigger('setFormState', '', {
                     'body': savedData.body,
@@ -42,7 +44,7 @@ export class SetContentScript {
             if(!args.payload.id) {
                 const currentId = this.opts.getCurrentState().compose.openedComposeId
                 if(currentId) {
-                    const savedData =  this.fomrs[currentId]
+                    const savedData =  this.forms[currentId]
                     if(savedData) {
                 
                     this.opts.trigger('setContent', 'changeItem', {
@@ -62,14 +64,14 @@ export class SetContentScript {
     private handleSyncForm(args: ScriptUpdateArgsType<IComposeTriggers, 'setContent', 'syncForm'>) {
         const currentId = this.opts.getCurrentState().compose.openedComposeId
         if(currentId) {
-            if(!this.fomrs[currentId]) {
-                this.fomrs[currentId] = {} as any
+            if(!this.forms[currentId]) {
+                this.forms[currentId] = {} as any
             }       
             if(args.payload.input === 'subject') {
-                this.fomrs[currentId].subject = args.payload.text
+                this.forms[currentId].subject = args.payload.text
             }
             if(args.payload.input === 'body') {
-            this.fomrs[currentId].body = args.payload.text
+            this.forms[currentId].body = args.payload.text
             }
         }
     }
@@ -77,7 +79,7 @@ export class SetContentScript {
     public handleCommitFormContent(args:ScriptUpdateArgsType<IComposeTriggers, 'setContent', 'commitFormContent'> ) {
         const currentId = this.opts.getCurrentState().compose.openedComposeId
         if(currentId) {
-            const savedData =  this.fomrs[currentId]
+            const savedData =  this.forms[currentId]
             if(savedData) {
                 this.opts.trigger('setFormState', '', {
                     'body': savedData.body,
