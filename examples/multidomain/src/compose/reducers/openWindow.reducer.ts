@@ -2,7 +2,7 @@
 
 
 export const openWindowReducer  = (state, payload) => {
-    if (payload.id == '-1') {
+    if (payload.id === '-1') {
       const id = `${Math.random()}`;
       const newComposeItem = {
         id,

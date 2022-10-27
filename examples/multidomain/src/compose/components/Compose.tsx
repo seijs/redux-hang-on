@@ -25,19 +25,23 @@ export const Compose = () => {
         <div className='root'>
             <div className='composeWrap'>
             <div className='subject'>
-                <input defaultValue={subject} name="Subject" className='textInput' onChange={(e)=> trigger('setContent', 'setForm', {
+                <input defaultValue={subject} 
+                name="Subject" 
+                className='textInput' 
+                onChange={(e)=> trigger('setContent', 'syncForm', {
                     'input': 'subject',
                     'text': e.target.value
                 })} />
             </div>
             <textarea defaultValue={body} name="Body" 
-            onChange={(e)=> trigger('setContent', 'setForm', {
+            onChange={(e)=> trigger('setContent', 'syncForm', {
                 'input': 'body',
                 'text': e.target.value
             })}
                    className='body'
                 />
             </div>
+            <button onClick={()=> trigger('saveLetter','init', null)}>Сохранить</button>
             <button onClick={()=> trigger('setContent','closeWindow', null)}>Закрыть</button>
         </div>
         </div>

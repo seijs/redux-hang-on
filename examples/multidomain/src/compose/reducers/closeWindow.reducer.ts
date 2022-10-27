@@ -10,4 +10,6 @@ export const closeWindowRecucer =  (state: IComposeState, payload) => {
     );
   state.composeItems = [...newComposesArray];
   state.openedComposeId = null;
+  state.subject = ''
+  state.body = ''
 }
