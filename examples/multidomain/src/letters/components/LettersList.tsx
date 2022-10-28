@@ -16,6 +16,8 @@ export const LettersList = () => {
     
       React.useEffect(()=> {
         trigger('lettersList', 'init', null);
+        trigger('setContent', 'init', null);
+ 
       },[])
       
       return (
@@ -26,7 +28,10 @@ export const LettersList = () => {
             {isLoading ? <div>Loading ...</div>: null}
             <div>
             { letters && letters.length ?  letters.map(l => 
-                <div key={l.uid}>{l.subject}</div>
+                <div key={l.uid} onClick={()=> trigger('setContent', 'openFromList', {
+                  'body': l.body,
+                  'subject': l.subject,
+                })}>{l.subject} </div>
             ): null}
             </div>
         </div>

@@ -16,9 +16,6 @@ export const Compose = () => {
     }))
     const trigger = useTrigger();
 
-    React.useEffect(()=> {
-        trigger('setContent', 'init', null);
-    },[])
 
     return (
         <div className='popupwindow'>

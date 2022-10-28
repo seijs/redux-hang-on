@@ -30,6 +30,15 @@ export class SetContentScript {
     }
 
     // when window is getting opened we need this to restore saved state
+
+    private handleOpenFromList(args: ScriptUpdateArgsType<IComposeTriggers, 'setContent', 'openFromList'>) {
+        this.opts.trigger('setFormState', '', {
+            'body': args.payload.body,
+            'subject': args.payload.subject
+        })
+        this.opts.trigger('setContent','openWindow', {id: '-1'})
+    }
+
     private handleOpenWindow(args:ScriptUpdateArgsType<IComposeTriggers,'setContent', 'openWindow'>) {
         if(args.payload.id) {
             const savedData =  this.forms[args.payload.id]
@@ -41,23 +50,33 @@ export class SetContentScript {
             }
         }
         else {
-            if(!args.payload.id) {
-                const currentId = this.opts.getCurrentState().compose.openedComposeId
-                if(currentId) {
-                    const savedData =  this.forms[currentId]
-                    if(savedData) {
-                
-                    this.opts.trigger('setContent', 'changeItem', {
-                            'subject': savedData.subject,
-                            'id':  currentId
-                        })
-                        this.opts.trigger('setFormState','', {
-                            'body': '',
-                            'subject': ''
-                        })
-                    }
+            const {openedComposeId, subject, body} = this.opts.getCurrentState().compose
+            console.log(`current id ${openedComposeId}`)
+            if(openedComposeId) {
+                const savedData =  this.forms[openedComposeId]
+               
+            
+                this.opts.trigger('setContent', 'changeItem', {
+                    'subject': savedData && savedData.subject || subject,
+                    'id':  openedComposeId
+                })
+                if(!savedData) {
+                    this.opts.trigger('setContent', 'syncForm', {
+                        'input': 'body',
+                        text: body
+                    })
+                    this.opts.trigger('setContent', 'syncForm', {
+                        'input': 'subject',
+                        'text': subject
+                    })
                 }
+                this.opts.trigger('setFormState','', {
+                    'body': '',
+                    'subject': ''
+                })
+                
             }
+            
         }
     }
 
@@ -78,7 +97,7 @@ export class SetContentScript {
 
     public handleCommitFormContent(args:ScriptUpdateArgsType<IComposeTriggers, 'setContent', 'commitFormContent'> ) {
         const currentId = this.opts.getCurrentState().compose.openedComposeId
-        if(currentId) {
+        if(currentId) {        
             const savedData =  this.forms[currentId]
             if(savedData) {
                 this.opts.trigger('setFormState', '', {
@@ -89,8 +108,10 @@ export class SetContentScript {
         }
     }
 
-    public update(args: ScriptUpdateArgsType<IComposeTriggers, 'setContent',  'syncForm' | 'openWindow' | 'closeWindow' | 'commitFormContent'>) {
-       // console.log(this.opts.getCurrentState())
+
+
+    public update(args: ScriptUpdateArgsType<IComposeTriggers, 'setContent',  'syncForm' | 'openWindow' | 'closeWindow' | 'commitFormContent' | 'openFromList'>) {
+        //console.log(this.opts.getCurrentState())
         console.log(args.status)
         console.log(args.payload)
        // console.log(this.system)
@@ -105,6 +126,9 @@ export class SetContentScript {
         }
         if(args.status === 'commitFormContent') {
             this.handleCommitFormContent(args as any)
+        }
+        if(args.status === 'openFromList') {
+            this.handleOpenFromList(args as any)
         }
     }
 

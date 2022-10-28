@@ -36,6 +36,7 @@ export interface IComposeTriggers {
     setContent: TriggerPhaseWrapper<{
         init: null;
         changeItem: { id: string; subject?: string };
+        openFromList: { subject: string, body: string}
         openWindow: { id: string | null };
         closeWindow: { id: string };
         submit: {id: string};
@@ -65,6 +66,7 @@ const setContentBite = Bite<
   {
     init: null,
     changeItem: changeItemReducer,
+    openFromList: null,
     openWindow: openWindowReducer,
     closeWindow: closeWindowRecucer,
     commitFormContent: null,

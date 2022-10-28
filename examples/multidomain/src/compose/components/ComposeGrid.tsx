@@ -61,6 +61,7 @@ export const ComposeGrid = () => {
       );
     }
 
+    
    return (
             <ComposeWrapper onClick={()=> trigger('setContent', 'openWindow', {id: null})}>
             {items

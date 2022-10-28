@@ -10,9 +10,10 @@ export class SubmitLetterScript {
 
 
     public async init(args: ScriptInitArgsType<IComposeTriggers, 'submitLetter', 'init'>) {
-        const {subject, body, openedComposeId} = this.opts.getCurrentState().compose;
+        const {openedComposeId} = this.opts.getCurrentState().compose;
         
         this.opts.trigger('setContent', 'commitFormContent', null)
+        const {subject, body} = this.opts.getCurrentState().compose;
         this.opts.trigger('saveLetter', 'init', {
             'body': body,
             'subject': subject,
