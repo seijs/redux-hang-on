@@ -97,7 +97,7 @@ const submitLetterBite = Bite<
   },
   {
     updateOn: ['submitLetter'],
-    canTrigger: ['saveLetter', 'submitLetter', 'setContent'],
+    canTrigger: ['saveLetter', 'submitLetter', 'setContent', 'showNotification'],
     script: SubmitLetterScript,
     instance: 'stable',
     triggerStatus: 'init',

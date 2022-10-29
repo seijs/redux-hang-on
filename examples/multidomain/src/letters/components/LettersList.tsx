@@ -23,7 +23,6 @@ export const LettersList = () => {
       return (
         <div>
             <button onClick={() => trigger('setContent', 'openWindow', {id: '-1'})}>Create new</button>
-             <div>Letters</div>
              <div><ComposeGrid/></div>
             {isLoading ? <div>Loading ...</div>: null}
             <div>

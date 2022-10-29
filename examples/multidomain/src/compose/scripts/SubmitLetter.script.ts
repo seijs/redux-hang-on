@@ -25,7 +25,7 @@ export class SubmitLetterScript {
         const savedId = await this.opts.wait('saveLetter', 'done')
         //Here we can throw notification that savedId was just created. For example
         this.opts.trigger('setContent', 'closeWindow', {id: openedComposeId})
-
+        this.opts.trigger('showNotification', 'init', 'Письмо успешно сохранено')
         // kill instance
         this.opts.drop()
     }
