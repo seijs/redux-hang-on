@@ -11,9 +11,10 @@ export class SubmitLetterScript {
 
     public async init(args: ScriptInitArgsType<IComposeTriggers, 'submitLetter', 'init'>) {
         const {openedComposeId} = this.opts.getCurrentState().compose;
-        
+        // save 
         this.opts.trigger('setContent', 'commitFormContent', null)
         const {subject, body} = this.opts.getCurrentState().compose;
+        // start 
         this.opts.trigger('saveLetter', 'init', {
             'body': body,
             'subject': subject,
@@ -24,6 +25,8 @@ export class SubmitLetterScript {
         const savedId = await this.opts.wait('saveLetter', 'done')
         //Here we can throw notification that savedId was just created. For example
         this.opts.trigger('setContent', 'closeWindow', {id: openedComposeId})
+
+        // kill instance
         this.opts.drop()
     }
 

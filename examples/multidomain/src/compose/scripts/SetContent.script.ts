@@ -20,6 +20,8 @@ export class SetContentScript {
         this.system = useSystem();
     }
 
+
+    // clear local saved data , then state will be changed by reducer
     private handleCloseWindow(args:ScriptUpdateArgsType<IComposeTriggers,'setContent', 'closeWindow'>) {
         const id = this.opts.getCurrentState().compose.openedComposeId
         if(id) {
@@ -30,7 +32,6 @@ export class SetContentScript {
     }
 
     // when window is getting opened we need this to restore saved state
-
     private handleOpenFromList(args: ScriptUpdateArgsType<IComposeTriggers, 'setContent', 'openFromList'>) {
         this.opts.trigger('setFormState', '', {
             'body': args.payload.body,
@@ -39,6 +40,9 @@ export class SetContentScript {
         this.opts.trigger('setContent','openWindow', {id: '-1'})
     }
 
+
+    // if id = -1 => means we open brand new window 
+    // if id = null => means we hide currently opened window
     private handleOpenWindow(args:ScriptUpdateArgsType<IComposeTriggers,'setContent', 'openWindow'>) {
         if(args.payload.id) {
             const savedData =  this.forms[args.payload.id]
@@ -80,6 +84,7 @@ export class SetContentScript {
         }
     }
 
+    //save form input into class property
     private handleSyncForm(args: ScriptUpdateArgsType<IComposeTriggers, 'setContent', 'syncForm'>) {
         const currentId = this.opts.getCurrentState().compose.openedComposeId
         if(currentId) {
