@@ -2,6 +2,7 @@ import { ScriptUpdateArgsType } from "@seijs/redux-hang-on/lib/types";
 import { IState, ITriggers } from "src/_redux/types";
 import { useSystem } from "../../../../../dist/lib";
 import { ScriptInitArgsType, ScriptOptsType } from "../../../../../dist/lib/types";
+import { PopupComposeContent } from "../components/PopupComposeContent";
 import { IComposeTriggers } from "../compose.config";
 
 
@@ -17,17 +18,37 @@ export class SetContentScript {
     private system;
 
     public init(args: ScriptInitArgsType<IComposeTriggers, 'setContent', 'init'>) {
+        console.log('CONTENT INIT')
         this.system = useSystem();
     }
 
 
     // clear local saved data , then state will be changed by reducer
     private handleCloseWindow(args:ScriptUpdateArgsType<IComposeTriggers,'setContent', 'closeWindow'>) {
-        const id = this.opts.getCurrentState().compose.openedComposeId
-        if(id) {
-            delete this.forms[id]
-        }
-      
+
+        const id = this.opts.getCurrentState().compose.openedComposeId 
+        this.opts.trigger('preventClose', 'init', {
+            'prevent': () => { 
+                args.hangOn(); 
+                console.log('PREVENTED!!!')
+                this.opts.trigger('openPopup', 'open', null)
+            },
+            'proceed': () => {
+                if(id) {
+                    delete this.forms[id]
+                }
+                this.opts.trigger('openPopup', 'close', null)
+                console.log('PROCEEDED!!!')
+            } 
+        }) 
+
+        /// check  => hook for response
+        /// if(bad) => handOn and open
+        /// else => proceed
+        /// if popup Yes => triggers close again
+        /// if NO => just close the window
+
+        this.opts.trigger('preventClose','check', {subject: this.forms[id] && this.forms[id].subject, body:  this.forms[id] && this.forms[id].body } ) 
        
     }
 

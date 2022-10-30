@@ -4,6 +4,7 @@ import { IState } from 'src/_redux/types'
 import { useTrigger } from 'src/_redux/useTrigger'
 import { ComposeWrapper } from './ComposeWrapper'
 import './Compose.less'
+import { PopupComposeContent } from './PopupComposeContent'
 
 
 
@@ -16,6 +17,10 @@ export const Compose = () => {
     }))
     const trigger = useTrigger();
 
+
+    React.useEffect(()=> {
+        trigger('openPopup', 'init', <PopupComposeContent/>)
+    },[])
 
     return (
         <div className='popupwindow'>

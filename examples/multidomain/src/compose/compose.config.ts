@@ -5,6 +5,7 @@ import { TriggerPhaseWrapper } from "../../../../dist/lib/types"
 import { changeItemReducer } from "./reducers/changeItem.reducer"
 import { closeWindowRecucer } from "./reducers/closeWindow.reducer"
 import {openWindowReducer} from './reducers/openWindow.reducer'
+import { PreventCloseScript } from "./scripts/PreventClose.script"
 import { SetContentScript } from "./scripts/SetContent.script"
 import { SubmitLetterScript } from "./scripts/SubmitLetter.script"
 
@@ -52,6 +53,11 @@ export interface IComposeTriggers {
         save: null
         done: null
     }>
+    preventClose: TriggerPhaseWrapper<{
+      init: {proceed: () => void, prevent: ()=> void},
+      clear: null
+      check: {body: string, subject: string}
+    }>
     setFormState: Partial<IComposeState>
 
 }
@@ -76,7 +82,7 @@ const setContentBite = Bite<
   },
   {
     updateOn: ['setContent'],
-    canTrigger: ['setFormState', 'setContent'],
+    canTrigger: ['setFormState', 'setContent', 'preventClose', 'openPopup'],
     script: SetContentScript,
     instance: 'stable',
     triggerStatus: 'init',
@@ -116,6 +122,27 @@ const setFormStateBite = Bite<
 );
 
 
+const preventCloseBite = Bite<
+  IComposeTriggers,
+  ITriggers,
+  IComposeState,
+  IState,
+  'preventClose'
+>(
+  {
+    init: null,
+    check: null,
+    clear: null
+  },
+  {
+    updateOn: ['preventClose'],
+    canTrigger: ['openPopup'],
+    script: PreventCloseScript,
+    instance: 'stable',
+    triggerStatus: 'init',
+  }
+);
+
 
 
 export const composeSlice = Slice<IComposeTriggers, ITriggers, IComposeState, IState>(
@@ -123,7 +150,8 @@ export const composeSlice = Slice<IComposeTriggers, ITriggers, IComposeState, IS
       {
        'setContent': setContentBite,
         'submitLetter':submitLetterBite,
-        'setFormState': setFormStateBite
+        'setFormState': setFormStateBite,
+        'preventClose': preventCloseBite
       },
       composeInitialState
   );
