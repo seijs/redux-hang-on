@@ -12,6 +12,7 @@ import { Window } from 'src/popup/components/Window';
 /*
 ** In MULD-4 we implement popup window 
 ** and mechanism that open popup when close compose without saving
+** Works with wrong behavior - need to be fixed 
 **
 */
 

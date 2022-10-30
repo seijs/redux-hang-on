@@ -30,7 +30,7 @@ export class PreventCloseScript {
         }
         else {
             this.poceedCallBack()
-           // this.opts.drop()
+           this.opts.drop()
         }   
     }
     private handleClear (args:ScriptUpdateArgsType<IComposeTriggers, 'preventClose', 'clear'> ) {
