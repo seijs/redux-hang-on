@@ -16,6 +16,13 @@ import { Window } from 'src/popup/components/Window';
 **
 */
 
+/*
+** In MULD-6 we implement different behavior when 
+** one opens compose window via clik on letters list item 
+** and on "Create New" button
+*/
+
+
 const Application = () => (
   <ErrorBoundary>
     <Provider store={store}>
