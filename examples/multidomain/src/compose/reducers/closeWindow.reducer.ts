@@ -2,7 +2,7 @@ import { IComposeState } from "../compose.config";
 
 
 
-export const closeWindowRecucer =  (state: IComposeState, payload) => {
+export const closeWindowRecucer =  (state: IComposeState, payload: {id: number}) => {
 
   const id = state.openedComposeId
     const newComposesArray = state.composeItems.filter(
@@ -13,3 +13,11 @@ export const closeWindowRecucer =  (state: IComposeState, payload) => {
   state.subject = ''
   state.body = ''
 }
+
+
+
+
+
+
+
+

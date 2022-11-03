@@ -8,7 +8,7 @@ export class OpenPopupScript {
     constructor(private opts: ScriptOptsType<IPopupTriggers,ITriggers,IState, 'openPopup'>) {}
 
     public init(args: ScriptInitArgsType<IPopupTriggers, 'openPopup', 'init'>) {
-        console.log(this.opts.getCurrentState().popup)
+        
        // here we can implement popup queue
     }
 

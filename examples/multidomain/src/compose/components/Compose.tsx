@@ -9,19 +9,15 @@ import { PopupComposeContent } from './PopupComposeContent'
 
 
 export const Compose = () => {
-    const { subject, body, to } = useSelector(
+    const { subject, body } = useSelector(
         (state: IState ) => ({
             subject: state.compose.subject,
-            body: state.compose.body,
-            to: state.compose.to
+            body: state.compose.body
     }))
     const trigger = useTrigger();
-
-
     React.useEffect(()=> {
         trigger('openPopup', 'init', <PopupComposeContent/>)
     },[])
-
     return (
         <div className='popupwindow'>
         <div className='root'>
