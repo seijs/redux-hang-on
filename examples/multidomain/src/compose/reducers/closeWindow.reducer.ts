@@ -2,7 +2,7 @@ import { IComposeState } from "../compose.config";
 
 
 
-export const closeWindowRecucer =  (state: IComposeState, payload: {id: number}) => {
+export const closeWindowRecucer =  (state: IComposeState, payload: {id: string}) => {
 
   const id = state.openedComposeId
     const newComposesArray = state.composeItems.filter(

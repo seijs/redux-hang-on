@@ -3,11 +3,19 @@ import { composeSlice } from 'src/compose/compose.config';
 import { lettersSlice } from 'src/letters/letters.config';
 import { notificationSlice } from 'src/notification/notification.config';
 import { popupSlice } from 'src/popup/popup.config';
+import { routerSlice } from 'src/router/router.config';
 import { settingsSlice } from 'src/settings/settings.config';
 import rootReducer from './reducer';
 
 function configureStore() {
-  const middlewares: Middleware[] = [lettersSlice.middleware, settingsSlice.middleware, composeSlice.middleware, notificationSlice.middleware, popupSlice.middleware];
+  const middlewares: Middleware[] = [
+     lettersSlice.middleware,
+     settingsSlice.middleware, 
+     composeSlice.middleware, 
+     notificationSlice.middleware, 
+     popupSlice.middleware,
+     routerSlice.middleware
+    ];
 
   const store = createStore(
     rootReducer,
