@@ -3,7 +3,7 @@ import { useTrigger } from "src/_redux/useTrigger";
 import { useSelector } from "react-redux";
 import { IState } from "src/_redux/types";
 import {ComposeGrid} from 'src/compose/components/ComposeGrid'
-
+import './styles.less'
 
 
 export const LettersList = () => {
@@ -21,13 +21,15 @@ export const LettersList = () => {
       },[])
       
       return (
-        <div>
-            <button onClick={() => trigger('setContent', 'openWindow', {id: '-1'})}>Create new</button>
+        <div className='lettersListContainer'>
+            <button className='lettersListButton' 
+              onClick={() => trigger('setContent', 'openWindow', {id: '-1'})}>Create new</button>
              <div><ComposeGrid/></div>
-            {isLoading ? <div>Loading ...</div>: null}
-            <div>
+            {isLoading ? <div className='lettersList'>Loading ...</div>: null}
+            <div className='lettersList'>
             { letters && letters.length ?  letters.map(l => 
-                <div key={l.uid} onClick={()=> trigger('setContent', 'openFromList', {
+                <div className='lettersListItem' key={l.uid} 
+                  onClick={()=> trigger('setContent', 'openFromList', {
                   'body': l.body,
                   'subject': l.subject,
                 })}>{l.subject} </div>
