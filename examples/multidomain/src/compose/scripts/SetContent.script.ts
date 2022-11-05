@@ -57,6 +57,7 @@ export class SetContentScript {
 
     // when window is getting opened we need this to restore saved state
     private handleOpenFromList(args: ScriptUpdateArgsType<IComposeTriggers, 'setContent', 'openFromList'>) {
+        console.log('OPEN FROM LIST')
         this.opts.trigger('setFormState', '', {
             'body': args.payload.body,
             'subject': args.payload.subject
@@ -84,11 +85,8 @@ export class SetContentScript {
         }
         else {
             const {openedComposeId, subject, body} = this.opts.getCurrentState().compose
-            console.log(`current id ${openedComposeId}`)
             if(openedComposeId) {
                 const savedData =  this.forms[openedComposeId]
-               
-            
                 this.opts.trigger('setContent', 'changeItem', {
                     'subject': savedData && savedData.subject || subject,
                     'id':  openedComposeId
@@ -107,9 +105,7 @@ export class SetContentScript {
                     'body': '',
                     'subject': ''
                 })
-                
-            }
-            
+            }   
         }
     }
 

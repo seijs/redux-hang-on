@@ -10,7 +10,6 @@ export class PreventCloseScript {
 
     private body: string = ''
     private subject: string = ''
-    private check: boolean = true
     private passCb: ()=>void
 
     public init(args: ScriptInitArgsType<IComposeTriggers, 'preventClose', 'init'>) {
@@ -18,25 +17,26 @@ export class PreventCloseScript {
     }
 
     private handleCheck (args:ScriptUpdateArgsType<IComposeTriggers, 'preventClose', 'checkReq'> ) {
-        console.log('CHECK')
         this.passCb = args.payload.passCb
         if (typeof args.payload.subject === 'undefined' && typeof args.payload.body === 'undefined') {
             this.opts.trigger('preventClose', 'checkResp', true)
         }
-        else if (this.check && (args.payload.subject !== this.subject || args.payload.body !== this.body)) {
+        else if (args.payload.subject !== this.subject || args.payload.body !== this.body) {
+            console.log('COMPARE')
+            console.log(args.payload.subject)
+            console.log(args.payload.body)
+            console.log(this.body)
+            console.log(this.subject)
             this.opts.trigger('preventClose', 'checkResp', false)
         }
         else {
            this.opts.trigger('preventClose', 'checkResp', true)
-           this.opts.drop()
         }   
     }
     private handleClear (args:ScriptUpdateArgsType<IComposeTriggers, 'preventClose', 'clear'> ) {
         if(this.passCb) {
             this.passCb()
         } 
-        this.check = false
-        this.opts.drop()
     }
     private handleSet (args:ScriptUpdateArgsType<IComposeTriggers, 'preventClose', 'set'> ) {
         this.body = args.payload.body
