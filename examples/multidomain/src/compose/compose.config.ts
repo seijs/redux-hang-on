@@ -149,7 +149,7 @@ export const composeSlice = Slice<IComposeTriggers, ITriggers, IComposeState, IS
     'compose',
       {
        'setContent': setContentBite,
-        'submitLetter':submitLetterBite,
+        'submitLetter': submitLetterBite,
         'setFormState': setFormStateBite,
         'preventClose': preventCloseBite
       },
