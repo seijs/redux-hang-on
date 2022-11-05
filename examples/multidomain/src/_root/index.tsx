@@ -16,6 +16,13 @@ import { Window } from 'src/popup/components/Window';
 **
 */
 
+
+
+/*
+** In MULD-5 fixed behavior of MULD-4
+**
+*/
+
 const Application = () => (
   <ErrorBoundary>
     <Provider store={store}>
