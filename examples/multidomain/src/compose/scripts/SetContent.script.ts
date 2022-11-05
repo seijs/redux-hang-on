@@ -24,37 +24,45 @@ export class SetContentScript {
 
 
     // clear local saved data , then state will be changed by reducer
-    private handleCloseWindow(args:ScriptUpdateArgsType<IComposeTriggers,'setContent', 'closeWindow'>) {
-
+    private async handleCloseWindow(args:ScriptUpdateArgsType<IComposeTriggers,'setContent', 'closeWindow'>) {
+        
+        if(!args.payload || !args.payload.noCheck) {
+            args.hangOn()
+        }
         const id = this.opts.getCurrentState().compose.openedComposeId 
-        this.opts.trigger('preventClose', 'init', {
-            'prevent': () => { 
-                args.hangOn(); 
-                console.log('PREVENTED!!!')
-                this.opts.trigger('openPopup', 'open', null)
-            },
-            'proceed': () => {
-                if(id) {
-                    delete this.forms[id]
-                }
-                this.opts.trigger('openPopup', 'close', null)
-                console.log('PROCEEDED!!!')
-            } 
-        }) 
-
+     
         /// check  => hook for response
         /// if(bad) => handOn and open
         /// else => proceed
         /// if popup Yes => triggers close again
         /// if NO => just close the window
-
-        this.opts.trigger('preventClose','check', {subject: this.forms[id] && this.forms[id].subject, body:  this.forms[id] && this.forms[id].body } ) 
-       
+        if(!args.payload || !args.payload.noCheck) {
+            const resp = await this.opts.hook('preventClose','checkReq', 'checkResp', {
+                subject: this.forms[id] && this.forms[id].subject, 
+                body:  this.forms[id] && this.forms[id].body,
+                passCb: () => {
+                    this.opts.trigger('openPopup', 'close', null)
+                    this.opts.trigger('setContent', 'closeWindow', {...args.payload, noCheck: true})
+                } 
+            }) 
+            if(!resp) {
+                console.log(`resp is ${resp}`)
+                this.opts.trigger('openPopup', 'open', null)
+            }
+            else {
+                this.opts.trigger('setContent', 'closeWindow', {...args.payload, noCheck: true})
+            }
+        }
     }
 
     // when window is getting opened we need this to restore saved state
     private handleOpenFromList(args: ScriptUpdateArgsType<IComposeTriggers, 'setContent', 'openFromList'>) {
+        console.log('OPEN FROM LIST')
         this.opts.trigger('setFormState', '', {
+            'body': args.payload.body,
+            'subject': args.payload.subject
+        })
+        this.opts.trigger('preventClose', 'set', {
             'body': args.payload.body,
             'subject': args.payload.subject
         })
@@ -65,6 +73,7 @@ export class SetContentScript {
     // if id = -1 => means we open brand new window 
     // if id = null => means we hide currently opened window
     private handleOpenWindow(args:ScriptUpdateArgsType<IComposeTriggers,'setContent', 'openWindow'>) {
+        this.opts.trigger('preventClose', 'init', null)
         if(args.payload.id) {
             const savedData =  this.forms[args.payload.id]
             if(savedData) {
@@ -76,11 +85,8 @@ export class SetContentScript {
         }
         else {
             const {openedComposeId, subject, body} = this.opts.getCurrentState().compose
-            console.log(`current id ${openedComposeId}`)
             if(openedComposeId) {
                 const savedData =  this.forms[openedComposeId]
-               
-            
                 this.opts.trigger('setContent', 'changeItem', {
                     'subject': savedData && savedData.subject || subject,
                     'id':  openedComposeId
@@ -99,9 +105,7 @@ export class SetContentScript {
                     'body': '',
                     'subject': ''
                 })
-                
-            }
-            
+            }   
         }
     }
 

@@ -12,8 +12,8 @@ export class SubmitLetterScript {
     public async init(args: ScriptInitArgsType<IComposeTriggers, 'submitLetter', 'init'>) {
         const {openedComposeId} = this.opts.getCurrentState().compose;
         // save 
-        this.opts.trigger('setContent', 'commitFormContent', null)
-        const {subject, body} = this.opts.getCurrentState().compose;
+        this.opts.trigger('setContent', 'commitFormContent', null) // сохранили данные из локал  в стейт 
+        const {subject, body} = this.opts.getCurrentState().compose; // читаем стейт
         // start 
         this.opts.trigger('saveLetter', 'init', {
             'body': body,
@@ -21,13 +21,13 @@ export class SubmitLetterScript {
             'from': 'asapovk@gmail.com',
             'to': '',
             'uid': 123
-        })
-        const savedId = await this.opts.wait('saveLetter', 'done')
+        }) // запускаем скрипт сохранения
+        const savedId = await this.opts.wait('saveLetter', 'done') // слушаем статус done
         //Here we can throw notification that savedId was just created. For example
-        this.opts.trigger('setContent', 'closeWindow', {id: openedComposeId})
-        this.opts.trigger('showNotification', 'init', 'Письмо успешно сохранено')
+        this.opts.trigger('setContent', 'closeWindow', {id: openedComposeId, noCheck: true}) // дропаем окно
+        this.opts.trigger('showNotification', 'init', 'Письмо успешно сохранено') // кидаем нотификейшн
         // kill instance
-        this.opts.drop()
+        this.opts.drop() // убиваем инстанс
     }
 
     public update(args: ScriptUpdateArgsType<IComposeTriggers, 'submitLetter', 'init' | 'done' | 'save'>) {
