@@ -39,7 +39,7 @@ export interface IComposeTriggers {
         changeItem: { id: string; subject?: string };
         openFromList: { subject: string, body: string}
         openWindow: { id: string | null };
-        closeWindow: { id: string };
+        closeWindow: { id: string, noCheck?: boolean };
         submit: {id: string};
         commitFormContent: null;
         syncForm: {
@@ -54,9 +54,11 @@ export interface IComposeTriggers {
         done: null
     }>
     preventClose: TriggerPhaseWrapper<{
-      init: {proceed: () => void, prevent: ()=> void},
+      init: null,
+      set: {subject: string, body: string},
       clear: null
-      check: {body: string, subject: string}
+      checkReq: {body: string, subject: string, passCb?: ()=>void}
+      checkResp: boolean
     }>
     setFormState: Partial<IComposeState>
 
@@ -81,7 +83,7 @@ const setContentBite = Bite<
     done: null
   },
   {
-    updateOn: ['setContent'],
+    updateOn: ['setContent', 'preventClose'],
     canTrigger: ['setFormState', 'setContent', 'preventClose', 'openPopup'],
     script: SetContentScript,
     instance: 'stable',
@@ -131,12 +133,14 @@ const preventCloseBite = Bite<
 >(
   {
     init: null,
-    check: null,
+    checkReq: null,
+    checkResp: null,
+    set: null,
     clear: null
   },
   {
     updateOn: ['preventClose'],
-    canTrigger: ['openPopup'],
+    canTrigger: ['preventClose'],
     script: PreventCloseScript,
     instance: 'stable',
     triggerStatus: 'init',
