@@ -24,7 +24,7 @@ export class SubmitLetterScript {
         }) // запускаем скрипт сохранения
         const savedId = await this.opts.wait('saveLetter', 'done') // слушаем статус done
         //Here we can throw notification that savedId was just created. For example
-        this.opts.trigger('setContent', 'closeWindow', {id: openedComposeId}) // дропаем окно
+        this.opts.trigger('setContent', 'closeWindow', {id: openedComposeId, noCheck: true}) // дропаем окно
         this.opts.trigger('showNotification', 'init', 'Письмо успешно сохранено') // кидаем нотификейшн
         // kill instance
         this.opts.drop() // убиваем инстанс
