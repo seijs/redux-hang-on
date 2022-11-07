@@ -28,15 +28,8 @@ export class SetContentScript {
         
         if(!args.payload || !args.payload.noCheck) {
             args.hangOn()
-        }
-        const id = this.opts.getCurrentState().compose.openedComposeId 
-     
-        /// check  => hook for response
-        /// if(bad) => handOn and open
-        /// else => proceed
-        /// if popup Yes => triggers close again
-        /// if NO => just close the window
-        if(!args.payload || !args.payload.noCheck) {
+
+            const id = this.opts.getCurrentState().compose.openedComposeId 
             const resp = await this.opts.hook('preventClose','checkReq', 'checkResp', {
                 subject: this.forms[id] && this.forms[id].subject, 
                 body:  this.forms[id] && this.forms[id].body,
@@ -46,13 +39,13 @@ export class SetContentScript {
                 } 
             }) 
             if(!resp) {
-                console.log(`resp is ${resp}`)
                 this.opts.trigger('openPopup', 'open', null)
             }
             else {
                 this.opts.trigger('setContent', 'closeWindow', {...args.payload, noCheck: true})
             }
         }
+
     }
 
     // when window is getting opened we need this to restore saved state
