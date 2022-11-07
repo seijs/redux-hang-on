@@ -29,7 +29,12 @@ export class System {
     return arr.length > 1 ? arr[1] : null;
   };
 
-  public addWait(trigger: string, {resolve, reject, args}) {
+  public addWait = (trigger: string, {resolve, reject, args}, timeout) => {
+    setTimeout(()=> {
+      if(this.waits[trigger]) {
+        this.waits[trigger].reject(`${trigger} TIMEOUT`)
+      } 
+    }, timeout || 5000)
     this.waits[trigger] = {resolve, reject, args}
   }
 

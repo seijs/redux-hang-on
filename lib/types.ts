@@ -49,7 +49,8 @@ export type WaiterType<IR> = <
   S extends TriggerPhaseKeys<IR, K>
 >(
   type: K,
-  status: S
+  status: S,
+  timeout?: number
 ) => Promise<TriggerPhasePayload<IR, K, S>>;
 
 export type HookerType<IR> = <
@@ -60,7 +61,8 @@ export type HookerType<IR> = <
   type: K,
   statusStart: S,
   statusStop: P,
-  startArgs: TriggerPhasePayload<IR, K, S>
+  startArgs: TriggerPhasePayload<IR, K, S>,
+  timeout?: number
 ) => Promise<TriggerPhasePayload<IR, K, P>>;
 
 
