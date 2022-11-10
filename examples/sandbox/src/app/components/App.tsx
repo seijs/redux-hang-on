@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
+import { IState } from 'src/_redux/types';
 import { useTrigger } from 'src/_redux/useTrigger';
 
 export const App = () => {
@@ -12,8 +13,8 @@ export const App = () => {
     trigger('go', 'backward_start', null as never);
   };
 
-  const app = useSelector(
-    (state: any) => state.app,
+  const {deep} = useSelector(
+    (state: IState) => ({ deep: state.app.deep.one.two}),
     () => false
   );
   console.log('render');
@@ -26,9 +27,10 @@ export const App = () => {
   return (
     <div>
       <div>App</div>
+      <div onClick={()=> trigger('setAppDeep', '', 5)}>Deep</div>
       <div onClick={forward}>Forward</div>
       <div onClick={back}>BackWard</div>
-      <div>{app.app}</div>
+      <div>{deep}</div>
     </div>
   );
 };

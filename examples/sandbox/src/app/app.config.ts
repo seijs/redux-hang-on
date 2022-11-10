@@ -7,11 +7,17 @@ import { Supply } from './scripts/Supply.script';
 
 export interface IAppState {
   app: string | null | number;
+  deep: {
+    one: {
+      two: number
+    }
+  }
   loading: boolean;
 }
 
 export interface IAppTriggers {
-  setAppState: IAppState
+  setAppState: Partial<IAppState>
+  setAppDeep: number
   setApp: TriggerPhaseWrapper<{
     init: never;
     drop: never;
@@ -34,6 +40,11 @@ export interface IAppTriggers {
 
 export const appInitialState: IAppState = {
   app: null,
+  deep: {
+    'one': {
+      'two': 2
+    }
+  },
   loading: true,
 };
 
@@ -87,6 +98,11 @@ const supplyBite = Bite<IAppTriggers, ITriggers, IAppState, IState, 'supply'>(
   }
 );
 
+const seAppDeepStateBite = Bite<IAppTriggers, ITriggers, IAppState, IState, 'setAppDeep'>(
+  (state, payload) => { state.deep.one.two = payload},
+  null
+);
+
 
 const seAppStateBite = Bite<IAppTriggers, ITriggers, IAppState, IState, 'setAppState'>(
   (state, payload) => { Object.assign(state, payload)},
@@ -98,6 +114,7 @@ const seAppStateBite = Bite<IAppTriggers, ITriggers, IAppState, IState, 'setAppS
 export const appSlice = Slice<IAppTriggers, ITriggers, IAppState, IState>(
   'app',
   {
+    setAppDeep: seAppDeepStateBite,
     go: goBite,
     setApp: setAppBite,
     supply: supplyBite,

@@ -6,6 +6,6 @@ export const Component = () => {
     const trigger = useTrigger()
 
     return (
-        <button onClick= {()=> trigger('loadItems', 'start', null)}>load</button>
+        <button>load</button>
     )
 }
