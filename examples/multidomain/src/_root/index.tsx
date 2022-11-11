@@ -8,6 +8,7 @@ import { ErrorBoundary } from '../_components';
 import { LettersList } from 'src/letters/components/LettersList';
 import { Notification } from 'src/notification/components/Notification';
 import { Window } from 'src/popup/components/Window';
+import { Recorder } from 'src/_recorder/components/Recoreder';
 
 /*
 ** In MULD-4 we implement popup window 
@@ -29,6 +30,7 @@ const Application = () => (
         <LettersList/>
         <Notification/>
         <Window/>
+        <Recorder/>      
     </Provider>
   </ErrorBoundary>
 );
