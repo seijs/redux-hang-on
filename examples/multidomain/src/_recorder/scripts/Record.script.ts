@@ -28,8 +28,8 @@ export class RecordScript  {
     }
 
     public update(args: ScriptUpdateArgsType<IRecordTriggers, 'record', 'start'| 'stop' | 'act' >) {
-         //@ts-ignore
-         if(args.status === 'act' && args.trigger === 'record') {
+        //@ts-ignore
+        if(args.status === 'act' && args.trigger === 'record') {
             this.act(args as any)
         }
         //@ts-ignore
