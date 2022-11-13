@@ -15,6 +15,7 @@ export function BeforeUpdate(
   state,
   actionType,
   actionPayload,
+  sourceName,
   reducers,
   sliceName
 ) {
@@ -35,6 +36,7 @@ export function BeforeUpdate(
       payload: actionPayload,
       trigger,
       status,
+      sourceName,
       hangOn: stopPropagate,
     };
 

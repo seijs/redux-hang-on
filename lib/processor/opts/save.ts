@@ -9,6 +9,7 @@ export function Save(store, config, system, uid) {
       if (canTrigger && canTrigger.includes(actionType)) {
         const combynedType = getActionType(actionType, actionStatus);
         store.dispatch({
+          sourceName: process[0].sourceName,
           type: combynedType,
           payload: actionArgs,
           opts: {

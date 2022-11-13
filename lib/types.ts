@@ -169,5 +169,6 @@ export type ScriptUpdateArgsType<
   payload: TriggerPhasePayload<ITrigger, Tr, PhK>;
   trigger: ITrigger;
   status: PhK;
+  sourceName: string;
   hangOn: (args?: { keepUpdate: boolean }) => void;
 };

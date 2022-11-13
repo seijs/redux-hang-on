@@ -65,7 +65,7 @@ export class System {
   public findProcessByUid(uid: string) {
     return Object.keys(this.context)
       .filter((k) => this.triggerUid(k) === uid)
-      .map((c) => this.context[c]);
+      .map((c) => ({processor: this.context[c], sourceName: c}));
   }
 
   public registerProcessor(trigger: string, opts: ProcessorOpts) {

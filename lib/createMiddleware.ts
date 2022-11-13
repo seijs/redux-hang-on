@@ -19,6 +19,7 @@ export const makeProcMiddleware = (
     let forceStopPropagate = false;
     const actionType = action.type;
     const actionPayload = action.payload || null;
+    const sourceName = action.sourceName || null
     const skipInit = action.opts && action.opts.noInit;
     const skipUpdate = action.opts && action.opts.noUpdate;
     const initConfig = matchInitTrigger(configs, actionType); /// Возвращает  1 конфиг
@@ -44,6 +45,7 @@ export const makeProcMiddleware = (
             store.getState(),
             actionType,
             actionPayload,
+            sourceName,
             reducers,
             sliceName
           );

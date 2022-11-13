@@ -11,6 +11,7 @@ export function TriggerOnly(store, config, system, uid) {
         store.dispatch({
           type: combynedType,
           payload: actionArgs,
+          sourceName: process[0].sourceName,
           opts: {
             noUpdate: true,
           },
