@@ -57,7 +57,7 @@ export const makeProcMiddleware = (
 
     system.resolveWait(action.type, action.payload);
 
-    return !(processorOpts && processorOpts.propagate) && !forceStopPropagate
+    return processorOpts || processorOpts.propagate
       ? next(action)
       : 0;
   };
