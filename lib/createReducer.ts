@@ -36,7 +36,6 @@ export function makeReducer<AC, StoreType>(
       }
     } else if (reducers[trigger]) {
       if (reducers[trigger][status]) {
-        console.log(action)
         return makeImmutable(state, action.payload, reducers[trigger][status]);
       }
     }
