@@ -3,6 +3,7 @@ import { createProcessorInstance } from './processor/createProcessorInstance';
 import { getInstance } from './processor/getProcessorInstance';
 import { onInit } from './processor/lifecycle/Init';
 import { BeforeUpdate } from './processor/lifecycle/Update';
+import { matchBiteName } from './processor/matchBiteName';
 import { matchInitTrigger } from './processor/matchInitTrigger';
 import { matchUpdateTrigger } from './processor/matchUpdateTrigger';
 import { prepareOpts } from './processor/prepareInstanceOpts';
@@ -22,6 +23,7 @@ export const makeProcMiddleware = (
     const skipInit = action.opts && action.opts.noInit;
     const skipUpdate = action.opts && action.opts.noUpdate;
     const initConfig = matchInitTrigger(configs, actionType); /// Возвращает  1 конфиг
+    const isBiteHit = matchBiteName(configs, actionType)
     const updateConfigs = matchUpdateTrigger(configs, actionType); //Возвращает массив конфигов
     if (initConfig && !skipInit) {
       const opts = prepareOpts(initConfig, store, system);
@@ -57,8 +59,8 @@ export const makeProcMiddleware = (
 
     system.resolveWait(action.type, action.payload);
 
-    return !processorOpts || processorOpts.propagate
-      ? next(action)
-      : 0;
+    return isBiteHit && processorOpts && (!processorOpts.propagate) 
+      ? 0
+      : next(action);
   };
 };
