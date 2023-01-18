@@ -1,9 +1,10 @@
 import { useSystem } from './System';
 import { MakeReducerType } from './types';
 import { getNullReducersNames } from './utils';
+ 
 
 function makeImmutable(state, payload, reducer) {
-  const stateCopy = { ...state };
+  const stateCopy = JSON.parse(JSON.stringify(state));
   reducer(stateCopy, payload);
 
   return stateCopy;
