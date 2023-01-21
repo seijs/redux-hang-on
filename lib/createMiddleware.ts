@@ -59,7 +59,7 @@ export const makeProcMiddleware = (
 
     system.resolveWait(action.type, action.payload);
 
-    return isBiteHit && processorOpts && (!processorOpts.propagate) 
+    return forceStopPropagate || (isBiteHit && processorOpts && (!processorOpts.propagate)) 
       ? 0
       : next(action);
   };
