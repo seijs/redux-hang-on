@@ -30,17 +30,18 @@ export class System {
   };
 
   public addWait = (trigger: string, {resolve, reject, args}, timeout) => {
-    setTimeout(()=> {
+    const timeOutId = setTimeout(()=> {
       if(this.waits[trigger]) {
         this.waits[trigger].reject(`${trigger} TIMEOUT`)
       } 
     }, timeout || 5000)
-    this.waits[trigger] = {resolve, reject, args}
+    this.waits[trigger] = {resolve, reject, args, id: timeOutId}
   }
 
   public resolveWait(trigger: string, args) {
       if(this.waits[trigger]) {
         this.waits[trigger].resolve(args)
+        clearTimeout(this.waits[trigger].id)
         delete(this.waits[trigger])
       }
   }
