@@ -4,7 +4,7 @@ import { getNullReducersNames } from './utils';
  
 
 function makeImmutable(state, payload, reducer) {
-  const stateCopy = JSON.parse(JSON.stringify(state));
+  const stateCopy = {...state};
   reducer(stateCopy, payload);
 
   return stateCopy;
