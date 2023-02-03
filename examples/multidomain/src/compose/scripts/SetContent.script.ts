@@ -20,6 +20,7 @@ export class SetContentScript {
     public init(args: ScriptInitArgsType<IComposeTriggers, 'setContent', 'init'>) {
         console.log('CONTENT INIT')
         this.system = useSystem();
+        this.opts.bind('openFromList', 'handleOpenFromList')
     }
 
 
@@ -150,9 +151,9 @@ export class SetContentScript {
         if(args.status === 'commitFormContent') {
             this.handleCommitFormContent(args as any)
         }
-        if(args.status === 'openFromList') {
-            this.handleOpenFromList(args as any)
-        }
+        // if(args.status === 'openFromList') {
+        //     this.handleOpenFromList(args as any)
+        // }
     }
 
 }

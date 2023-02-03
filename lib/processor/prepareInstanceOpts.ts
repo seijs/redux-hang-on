@@ -6,6 +6,7 @@ import { Save } from './opts/save';
 import { TriggerOnly } from './opts/triggerOnly';
 import { Wait } from './opts/wait';
 import { Hook } from './opts/hook';
+import { Bind } from './opts/bind';
 
 export function prepareOpts(config, store, system) {
   const processUid = v4();
@@ -18,7 +19,8 @@ export function prepareOpts(config, store, system) {
   const state = store.getState();
   const getCurrentState = store.getState;
   const wait = Wait(store, config, system, processUid);
-  const hook = Hook(store, config, system, processUid)
+  const hook = Hook(store, config, system, processUid);
+  const bind = Bind(system, config);
   return {
     dispatch: store.dispatch,
     uid: processUid,
@@ -32,5 +34,6 @@ export function prepareOpts(config, store, system) {
     getCurrentState,
     state,
     customOpts: config.config.customOpts,
+    bind
   };
 }

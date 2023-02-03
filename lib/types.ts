@@ -73,6 +73,12 @@ export type SetStatusType<IR, K extends keyof IR> = <
   payload: TriggerPhasePayload<IR, K, S>
 ) => void;
 
+export type BindHandlerType<IR, K extends keyof IR> = <
+S extends TriggerPhaseKeys<IR, K>>(
+  status: S,
+  handlerName: string
+) => void;
+
 export type DefautOpts<
   ITrigger,
   IRootTrigger,
@@ -91,6 +97,7 @@ export type DefautOpts<
   getCurrentState: () => IState;
   drop: () => void;
   state: IState;
+  bind: BindHandlerType<ITrigger, BiteName>
 };
 
 type OmitNever<T> = { [K in keyof T as T[K] extends never ? never : K]: T[K] };

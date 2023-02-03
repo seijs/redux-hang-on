@@ -20,7 +20,7 @@ export function BeforeUpdate(
 ) {
   const { trigger, status } = getTriggerAndStatus(actionType);
 
-  const reducer = pickReducer(reducers, trigger, status);
+  //const reducer = pickReducer(reducers, trigger, status);
   let propagate = true;
   let keepUpdate = false;
   const stopPropagate = (args?: { keepUpdate: boolean }) => {
@@ -40,8 +40,12 @@ export function BeforeUpdate(
 
 
     if(instance.updatable) {
+      console.log('is updatable')
+      //console.log(Object.keys(instance.updatable))
       const foundKey = Object.keys(instance.updatable).find( u => u === getActionType(updateArgs.trigger, updateArgs.status) )
       if(foundKey) {
+        console.log(foundKey)
+        console.log(instance[instance.updatable[foundKey]])
         instance[instance.updatable[foundKey]](updateArgs)
       }
       else {
@@ -51,10 +55,10 @@ export function BeforeUpdate(
     else {
       instance.update(updateArgs);
     }
-    if (!propagate && keepUpdate) {
-      const stateCopy = { ...state };
-      reducer(stateCopy[sliceName], actionPayload);
-    }
+    // if (!propagate && keepUpdate) {
+    //   const stateCopy = { ...state };
+    //   reducer(stateCopy[sliceName], actionPayload);
+    // }
   }
 
   return propagate;

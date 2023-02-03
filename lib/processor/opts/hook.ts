@@ -8,7 +8,7 @@ export function Hook(store, config, system, uid) {
     const combynedTypeStart = getActionType(actionType, actionStatusStart);
     const combynedTypeStop = getActionType(actionType, actionStatusStop);
     
-    setTimeout(()=> {
+    setTimeout(() => {
         store.dispatch({
             type: combynedTypeStart,
             payload: startPAyload,
