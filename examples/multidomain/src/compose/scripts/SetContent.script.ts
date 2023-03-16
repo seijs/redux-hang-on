@@ -23,6 +23,11 @@ export class SetContentScript {
         this.opts.bind('openFromList', 'handleOpenFromList')
     }
 
+    public updateAfter() {
+        console.log('afterHandler')
+        console.log(this.opts.uid);
+    }
+
 
     // clear local saved data , then state will be changed by reducer
     private async handleCloseWindow(args:ScriptUpdateArgsType<IComposeTriggers,'setContent', 'closeWindow'>) {

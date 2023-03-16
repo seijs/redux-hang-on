@@ -14,6 +14,8 @@ export class System {
     }
   }
 
+  public afterHandlers: Array<any> = []
+
   public context: { [triggerer: string]: any } = {};
  
 
